@@ -241,5 +241,3 @@ public class CampManagementApplication {
 
 }
 
-
-// 안녕 난 우진이야
