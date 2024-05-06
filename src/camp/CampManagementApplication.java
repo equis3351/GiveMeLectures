@@ -183,7 +183,7 @@ public class CampManagementApplication {
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
         // 기능 구현 (필수 과목, 선택 과목)
-
+        // 최소 3개 이상의 필수 과목, 2개 이상의 선택 과목을 선택합니다.
         Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
         // 기능 구현
         System.out.println("수강생 등록 성공!\n");
@@ -193,6 +193,7 @@ public class CampManagementApplication {
     private static void inquireStudent() {
         System.out.println("\n수강생 목록을 조회합니다...");
         // 기능 구현
+        // 조회 형식은 자유입니다.
         System.out.println("\n수강생 목록 조회 성공!");
     }
 
@@ -209,6 +210,7 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("\n수강생 정보를 조회합니다...");
         // 기능 구현
+        // 조회 형식은 자유입니다.
         System.out.println("\n수강생 정보 조회 성공!");
     }
 
@@ -217,6 +219,7 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("\n수강생 정보를 수정합니다...");
         // 기능 구현
+        // 이름 또는 상태를 입력받아 수정하시면 됩니다.
         System.out.println("\n수강생 정보 수정 성공!");
     }
 
@@ -225,6 +228,7 @@ public class CampManagementApplication {
         String studentState = getStudentState(); // 조회할 수강생 상태
         System.out.println("\n상태별 수강생 목록을 조회합니다...");
         // 기능 구현
+        // 조회 형식은 자유입니다.
         System.out.println("\n상태별 수강생 목록 조회 성공!");
     }
 
@@ -233,6 +237,7 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("\n수강생을 삭제합니다...");
         // 기능 구현
+        // 해당 수강생의 점수 기록도 함께 삭제됩니다.
         System.out.println("\n수강생 삭제 성공!");
     }
 
@@ -271,7 +276,16 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
         // 기능 구현
+        // 등록하려는 과목의 회차 점수가 이미 등록되어 있다면 등록할 수 없습니다.
+        // 과목의 회차 점수가 중복되어 등록될 수 없습니다.
+        // 회차에 10 초과 및 1 미만의 수가 저장될 수 없습니다. (회차 범위: 1 ~ 10)
+        // 점수에 100 초과 및 음수가 저장될 수 없습니다. (점수 범위: 0 ~ 100)
+
+        // 점수 데이터 타입 : 정수형
+        // 점수에 따라 등급이 매겨집니다.
+        // 캠프 기간동안 선택한 과목별로 총 10회의 시험을 봅니다.
         System.out.println("\n점수 등록 성공!");
+        // 점수를 등록하면 자동으로 등급이 추가 저장됩니다.
     }
 
     // 수강생의 과목별 회차 점수 수정
@@ -289,6 +303,7 @@ public class CampManagementApplication {
         // 기능 구현 (조회할 특정 과목)
         System.out.println("회차별 등급을 조회합니다...");
         // 기능 구현
+        // 조회 형식은 자유입니다.
         System.out.println("\n등급 조회 성공!");
     }
 
@@ -298,6 +313,7 @@ public class CampManagementApplication {
         // 기능 구현 (과목별 평균 등급)
         System.out.println("과목별 평균 등급을 조회합니다...");
         // 기능 구현
+        // 조회 형식은 자유입니다.
         System.out.println("\n평균 등급 조회 성공!");
     }
 
@@ -308,6 +324,7 @@ public class CampManagementApplication {
         // 기능 구현 (필수 과목 평균 등급) 
         System.out.println("특정 상태 수강생들의 필수 과목 평균 등급을 조회합니다...");
         // 기능 구현
+        // 조회 형식은 자유입니다.
         System.out.println("\n필수 과목 평균 등급 조회 성공!");
     }
 

@@ -32,6 +32,7 @@ public class Student {
 
     // Setter
     public void setStudentId(String studentId) {
+        // 수강생의 고유번호는 중복될 수 없습니다.
         this.studentId = studentId;
     }
 
