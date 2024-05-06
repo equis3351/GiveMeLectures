@@ -37,6 +37,7 @@ public class CampManagementApplication {
     // 스캐너
     private static Scanner sc = new Scanner(System.in);
 
+    // 메인
     public static void main(String[] args) {
         setInitData();
         try {
@@ -117,6 +118,7 @@ public class CampManagementApplication {
         }
     }
 
+    // 메인뷰
     private static void displayMainView() throws InterruptedException {
         boolean flag = true;
         while (flag) {
@@ -141,6 +143,7 @@ public class CampManagementApplication {
         System.out.println("프로그램을 종료합니다.");
     }
 
+    // 1. 수강생 관리
     private static void displayStudentView() {
         boolean flag = true;
         while (flag) {
@@ -148,14 +151,24 @@ public class CampManagementApplication {
             System.out.println("수강생 관리 실행 중...");
             System.out.println("1. 수강생 등록");
             System.out.println("2. 수강생 목록 조회");
-            System.out.println("3. 메인 화면 이동");
+            System.out.println("3. 수강생 상태 관리");
+            System.out.println("4. 수강생 정보 조회");
+            System.out.println("5. 수강생 정보 수정");
+            System.out.println("6. 상태별 수강생 목록 조회");
+            System.out.println("7. 수강생 삭제");
+            System.out.println("8. 메인 화면 이동");
             System.out.print("관리 항목을 선택하세요...");
             int input = sc.nextInt();
 
             switch (input) {
                 case 1 -> createStudent(); // 수강생 등록
                 case 2 -> inquireStudent(); // 수강생 목록 조회
-                case 3 -> flag = false; // 메인 화면 이동
+                case 3 -> updateStudentState(); // 수강생 상태 관리
+                case 4 -> inquireStudentInformation(); // 수강생 정보 조회
+                case 5 -> updateStudent(); // 수강생 정보 수정
+                case 6 -> inquireStudentState(); // 상태별 수강생 목록 조회
+                case 7 -> removeStudent(); // 수강생 삭제
+                case 8 -> flag = false; // 메인 화면 이동
                 default -> {
                     System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
                     flag = false;
@@ -183,6 +196,47 @@ public class CampManagementApplication {
         System.out.println("\n수강생 목록 조회 성공!");
     }
 
+    // 수강생 상태 관리
+    private static void updateStudentState() {
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        System.out.println("\n수강생 상태를 관리합니다...");
+        // 기능 구현
+        System.out.println("\n수강생 상태 관리 성공!");
+    }
+
+    // 수강생 정보 조회
+    private static void inquireStudentInformation() {
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        System.out.println("\n수강생 정보를 조회합니다...");
+        // 기능 구현
+        System.out.println("\n수강생 정보 조회 성공!");
+    }
+
+    // 수강생 정보 수정
+    private static void updateStudent() {
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        System.out.println("\n수강생 정보를 수정합니다...");
+        // 기능 구현
+        System.out.println("\n수강생 정보 수정 성공!");
+    }
+
+    // 상태별 수강생 목록 조회
+    private static void inquireStudentState() {
+        String studentState = getStudentState(); // 조회할 수강생 상태
+        System.out.println("\n상태별 수강생 목록을 조회합니다...");
+        // 기능 구현
+        System.out.println("\n상태별 수강생 목록 조회 성공!");
+    }
+
+    // 수강생 삭제
+    private static void removeStudent() {
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        System.out.println("\n수강생을 삭제합니다...");
+        // 기능 구현
+        System.out.println("\n수강생 삭제 성공!");
+    }
+
+    // 2. 점수 관리
     private static void displayScoreView() {
         boolean flag = true;
         while (flag) {
@@ -191,7 +245,9 @@ public class CampManagementApplication {
             System.out.println("1. 수강생의 과목별 시험 회차 및 점수 등록");
             System.out.println("2. 수강생의 과목별 회차 점수 수정");
             System.out.println("3. 수강생의 특정 과목 회차별 등급 조회");
-            System.out.println("4. 메인 화면 이동");
+            System.out.println("4. 수강생의 과목별 평균 등급 조회");
+            System.out.println("5. 특정 상태 수강생들의 필수 과목 평균 등급 조회");
+            System.out.println("6. 메인 화면 이동");
             System.out.print("관리 항목을 선택하세요...");
             int input = sc.nextInt();
 
@@ -199,7 +255,9 @@ public class CampManagementApplication {
                 case 1 -> createScore(); // 수강생의 과목별 시험 회차 및 점수 등록
                 case 2 -> updateRoundScoreBySubject(); // 수강생의 과목별 회차 점수 수정
                 case 3 -> inquireRoundGradeBySubject(); // 수강생의 특정 과목 회차별 등급 조회
-                case 4 -> flag = false; // 메인 화면 이동
+                case 4 -> inquireAverageGradeBySubject(); // 수강생의 과목별 평균 등급 조회
+                case 5 -> inquireAverageGradeBySubjectForSpecificState(); // 특정 상태 수강생들의 필수 과목 평균 등급 조회
+                case 6 -> flag = false; // 메인 화면 이동
                 default -> {
                     System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
                     flag = false;
@@ -210,6 +268,11 @@ public class CampManagementApplication {
 
     private static String getStudentId() {
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
+        return sc.next();
+    }
+
+    private static String getStudentState() {
+        System.out.print("\n조회할 수강생의 상태를 입력하시오...");
         return sc.next();
     }
 
@@ -239,5 +302,22 @@ public class CampManagementApplication {
         System.out.println("\n등급 조회 성공!");
     }
 
-}
+    // 수강생의 과목별 평균 등급 조회
+    private static void inquireAverageGradeBySubject() {
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        // 기능 구현 (조회할 특정 과목)
+        System.out.println("과목별 평균 등급을 조회합니다...");
+        // 기능 구현
+        System.out.println("\n평균 등급 조회 성공!");
+    }
 
+    // 특정 상태 수강생들의 필수 과목 평균 등급 조회
+    private static void inquireAverageGradeBySubjectForSpecificState() {
+        String studentState = getStudentState(); // 조회할 수강생 상태
+        // 기능 구현 (조회할 특정 과목)
+        System.out.println("특정 상태 수강생들의 필수 과목 평균 등급을 조회합니다...");
+        // 기능 구현
+        System.out.println("\n필수 과목 평균 등급 조회 성공!");
+    }
+
+}
