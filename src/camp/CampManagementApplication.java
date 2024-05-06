@@ -305,7 +305,7 @@ public class CampManagementApplication {
     private static void inquireAverageGradeBySubjectForSpecificState() {
         String studentState = getStudentState(); // 조회할 수강생 상태
         // 기능 구현 (조회할 특정 상태)
-        // 기능 구현 (필수 과목 평균 등급)
+        // 기능 구현 (필수 과목 평균 등급) 
         System.out.println("특정 상태 수강생들의 필수 과목 평균 등급을 조회합니다...");
         // 기능 구현
         System.out.println("\n필수 과목 평균 등급 조회 성공!");
