@@ -5,6 +5,7 @@ import camp.model.Student;
 import camp.model.Subject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -49,7 +50,13 @@ public class CampManagementApplication {
 
     // 초기 데이터 생성
     private static void setInitData() {
-        studentStore = new ArrayList<>();
+        studentStore = List.of(
+                new Student(
+                        sequence(INDEX_TYPE_SUBJECT),
+                        "김우진",
+                        new ArrayList<>(Arrays.asList("1", "2", "3", "6", "7"))
+                )
+        );
         subjectStore = List.of(
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
@@ -179,19 +186,84 @@ public class CampManagementApplication {
 
     // 수강생 등록
     private static void createStudent() {
-        System.out.println("\n수강생을 등록합니다...");
+        System.out.println("==================================");
+        System.out.println("수강생을 등록합니다...");
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
+
         // 기능 구현 (필수 과목, 선택 과목)
         // 최소 3개 이상의 필수 과목, 2개 이상의 선택 과목을 선택합니다.
-        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName); // 수강생 인스턴스 생성 예시 코드
+        ArrayList<String> studentSubjects = new ArrayList<>();
+
+        // 필수 과목 선택
+        int mandatorySubjectCount = 0;
+        while (mandatorySubjectCount < 5) {
+            System.out.println("==================================");
+            System.out.println("3개 이상의 필수 과목을 선택해주세요.");
+            String[] subjects = {"Java", "객체지향", "Spring", "JPA", "MySQL", "필수 과목 선택 종료"};
+            for (int i = 0; i < subjects.length; i++) {
+                System.out.println((i + 1) + ". " + subjects[i]);
+            }
+            String subject = sc.next();
+            if (studentSubjects.contains(subject)) {
+                System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.");
+            } else if (subject.equals("6") && mandatorySubjectCount >= 3){
+                break;
+            } else if (subject.matches("[1-5]")) {
+                studentSubjects.add(subject);
+                mandatorySubjectCount++;
+            } else {
+                System.out.println("1부터 5 사이의 숫자를 입력해주세요.");
+            }
+
+            System.out.print("선택한 과목 : ");
+            for (String selected : studentSubjects) {
+                System.out.print(selected + " ");
+            }
+            System.out.println();
+
+        }
+
+        // 선택 과목 선택
+        int choiceSubjectCount = 0;
+        while (choiceSubjectCount < 4) {
+            System.out.println("==================================");
+            System.out.println("2개 이상의 선택 과목을 선택해주세요.");
+            String[] subjects = {"", "", "", "", "",
+                    "디자인 패턴", "Spring Security", "Redis", "MongoDB", "선택 과목 선택 종료"};
+            for (int i = 5; i < subjects.length; i++) {
+                System.out.println((i + 1) + ". " + subjects[i]);
+            }
+            String subject = sc.next();
+            if (studentSubjects.contains(subject)) {
+                System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.");
+            } else if (subject.equals("10") && choiceSubjectCount >= 2) {
+                break;
+            } else if (subject.matches("[6-9]")) {
+                studentSubjects.add(subject);
+                choiceSubjectCount++;
+            } else {
+                System.out.println("6부터 9 사이의 숫자를 입력해주세요.");
+            }
+
+            System.out.print("선택한 과목 : ");
+            for (String selected : studentSubjects) {
+                System.out.print(selected + " ");
+            }
+            System.out.println();
+
+        }
+
+        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, studentSubjects); // 수강생 인스턴스 생성 예시 코드
         // 기능 구현
-        System.out.println("수강생 등록 성공!\n");
+        studentStore.add(student);
+        System.out.println("수강생 등록 성공!");
     }
 
     // 수강생 목록 조회
     private static void inquireStudent() {
-        System.out.println("\n수강생 목록을 조회합니다...");
+        System.out.println("==================================");
+        System.out.println("수강생 목록을 조회합니다...");
         // 기능 구현
         // 조회 형식은 자유입니다.
         System.out.println("\n수강생 목록 조회 성공!");
@@ -199,16 +271,18 @@ public class CampManagementApplication {
 
     // 수강생 상태 관리
     private static void updateStudentState() {
+        System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        System.out.println("\n수강생 상태를 관리합니다...");
+        System.out.println("수강생 상태를 관리합니다...");
         // 기능 구현
         System.out.println("\n수강생 상태 관리 성공!");
     }
 
     // 수강생 정보 조회
     private static void inquireStudentInformation() {
+        System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        System.out.println("\n수강생 정보를 조회합니다...");
+        System.out.println("수강생 정보를 조회합니다...");
         // 기능 구현
         // 조회 형식은 자유입니다.
         System.out.println("\n수강생 정보 조회 성공!");
@@ -216,8 +290,9 @@ public class CampManagementApplication {
 
     // 수강생 정보 수정
     private static void updateStudent() {
+        System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        System.out.println("\n수강생 정보를 수정합니다...");
+        System.out.println("수강생 정보를 수정합니다...");
         // 기능 구현
         // 이름 또는 상태를 입력받아 수정하시면 됩니다.
         System.out.println("\n수강생 정보 수정 성공!");
@@ -225,8 +300,9 @@ public class CampManagementApplication {
 
     // 상태별 수강생 목록 조회
     private static void inquireStudentState() {
+        System.out.println("==================================");
         String studentState = getStudentState(); // 조회할 수강생 상태
-        System.out.println("\n상태별 수강생 목록을 조회합니다...");
+        System.out.println("상태별 수강생 목록을 조회합니다...");
         // 기능 구현
         // 조회 형식은 자유입니다.
         System.out.println("\n상태별 수강생 목록 조회 성공!");
@@ -234,8 +310,9 @@ public class CampManagementApplication {
 
     // 수강생 삭제
     private static void removeStudent() {
+        System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        System.out.println("\n수강생을 삭제합니다...");
+        System.out.println("수강생을 삭제합니다...");
         // 기능 구현
         // 해당 수강생의 점수 기록도 함께 삭제됩니다.
         System.out.println("\n수강생 삭제 성공!");
@@ -273,6 +350,7 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static void createScore() {
+        System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
         // 기능 구현
@@ -290,6 +368,7 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
+        System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (수정할 과목 및 회차, 점수)
         System.out.println("시험 점수를 수정합니다...");
@@ -299,6 +378,7 @@ public class CampManagementApplication {
 
     // 수강생의 특정 과목 회차별 등급 조회
     private static void inquireRoundGradeBySubject() {
+        System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (조회할 특정 과목)
         System.out.println("회차별 등급을 조회합니다...");
@@ -309,6 +389,7 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 평균 등급 조회
     private static void inquireAverageGradeBySubject() {
+        System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (과목별 평균 등급)
         System.out.println("과목별 평균 등급을 조회합니다...");
@@ -319,6 +400,7 @@ public class CampManagementApplication {
 
     // 특정 상태 수강생들의 필수 과목 평균 등급 조회
     private static void inquireAverageGradeBySubjectForSpecificState() {
+        System.out.println("==================================");
         String studentState = getStudentState(); // 조회할 수강생 상태
         // 기능 구현 (조회할 특정 상태)
         // 기능 구현 (필수 과목 평균 등급) 
@@ -329,12 +411,12 @@ public class CampManagementApplication {
     }
 
     private static String getStudentId() {
-        System.out.print("\n관리할 수강생의 번호를 입력하시오...");
+        System.out.print("관리할 수강생의 번호를 입력하시오...");
         return sc.next();
     }
 
     private static String getStudentState() {
-        System.out.print("\n조회할 수강생의 상태를 입력하시오...");
+        System.out.print("조회할 수강생의 상태를 입력하시오...");
         return sc.next();
     }
 
