@@ -266,16 +266,6 @@ public class CampManagementApplication {
         }
     }
 
-    private static String getStudentId() {
-        System.out.print("\n관리할 수강생의 번호를 입력하시오...");
-        return sc.next();
-    }
-
-    private static String getStudentState() {
-        System.out.print("\n조회할 수강생의 상태를 입력하시오...");
-        return sc.next();
-    }
-
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static void createScore() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
@@ -305,7 +295,7 @@ public class CampManagementApplication {
     // 수강생의 과목별 평균 등급 조회
     private static void inquireAverageGradeBySubject() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        // 기능 구현 (조회할 특정 과목)
+        // 기능 구현 (과목별 평균 등급)
         System.out.println("과목별 평균 등급을 조회합니다...");
         // 기능 구현
         System.out.println("\n평균 등급 조회 성공!");
@@ -314,10 +304,21 @@ public class CampManagementApplication {
     // 특정 상태 수강생들의 필수 과목 평균 등급 조회
     private static void inquireAverageGradeBySubjectForSpecificState() {
         String studentState = getStudentState(); // 조회할 수강생 상태
-        // 기능 구현 (조회할 특정 과목)
+        // 기능 구현 (조회할 특정 상태)
+        // 기능 구현 (필수 과목 평균 등급) 
         System.out.println("특정 상태 수강생들의 필수 과목 평균 등급을 조회합니다...");
         // 기능 구현
         System.out.println("\n필수 과목 평균 등급 조회 성공!");
+    }
+
+    private static String getStudentId() {
+        System.out.print("\n관리할 수강생의 번호를 입력하시오...");
+        return sc.next();
+    }
+
+    private static String getStudentState() {
+        System.out.print("\n조회할 수강생의 상태를 입력하시오...");
+        return sc.next();
     }
 
 }
