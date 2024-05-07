@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Objects;
 
 /**
  * Notification
@@ -50,13 +51,33 @@ public class CampManagementApplication {
 
     // 초기 데이터 생성
     private static void setInitData() {
-        studentStore = List.of(
+        studentStore = new ArrayList<>(List.of(
                 new Student(
-                        sequence(INDEX_TYPE_SUBJECT),
+                        sequence(INDEX_TYPE_STUDENT),
                         "김우진",
                         new ArrayList<>(Arrays.asList("1", "2", "3", "6", "7"))
+                ),
+                new Student(
+                        sequence(INDEX_TYPE_STUDENT),
+                        "남현",
+                        new ArrayList<>(Arrays.asList("1", "2", "4", "8", "9"))
+                ),
+                new Student(
+                        sequence(INDEX_TYPE_STUDENT),
+                        "이민정",
+                        new ArrayList<>(Arrays.asList("1", "4", "5", "6", "7", "9"))
+                ),
+                new Student(
+                        sequence(INDEX_TYPE_STUDENT),
+                        "이제범",
+                        new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5", "7", "8"))
+                ),
+                new Student(
+                        sequence(INDEX_TYPE_STUDENT),
+                        "조성훈",
+                        new ArrayList<>(Arrays.asList("2", "3", "4", "7", "9"))
                 )
-        );
+        ));
         subjectStore = List.of(
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
@@ -200,10 +221,13 @@ public class CampManagementApplication {
         while (mandatorySubjectCount < 5) {
             System.out.println("==================================");
             System.out.println("3개 이상의 필수 과목을 선택해주세요.");
-            String[] subjects = {"Java", "객체지향", "Spring", "JPA", "MySQL", "필수 과목 선택 종료"};
-            for (int i = 0; i < subjects.length; i++) {
-                System.out.println((i + 1) + ". " + subjects[i]);
+            for (int i = 0; i < subjectStore.size(); i++) {
+                Subject subject = subjectStore.get(i);
+                if (Objects.equals(subject.getSubjectType(), SUBJECT_TYPE_MANDATORY)) {
+                    System.out.println((i + 1) + ". " + subject.getSubjectName());
+                }
             }
+            System.out.println("6. 필수 과목 선택 종료");
             String subject = sc.next();
             if (studentSubjects.contains(subject)) {
                 System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.");
@@ -229,11 +253,13 @@ public class CampManagementApplication {
         while (choiceSubjectCount < 4) {
             System.out.println("==================================");
             System.out.println("2개 이상의 선택 과목을 선택해주세요.");
-            String[] subjects = {"", "", "", "", "",
-                    "디자인 패턴", "Spring Security", "Redis", "MongoDB", "선택 과목 선택 종료"};
-            for (int i = 5; i < subjects.length; i++) {
-                System.out.println((i + 1) + ". " + subjects[i]);
+            for (int i = 0; i < subjectStore.size(); i++) {
+                Subject subject = subjectStore.get(i);
+                if (Objects.equals(subject.getSubjectType(), SUBJECT_TYPE_CHOICE)) {
+                    System.out.println((i + 1) + ". " + subject.getSubjectName());
+                }
             }
+            System.out.println("10. 선택 과목 선택 종료");
             String subject = sc.next();
             if (studentSubjects.contains(subject)) {
                 System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.");
@@ -266,6 +292,12 @@ public class CampManagementApplication {
         System.out.println("수강생 목록을 조회합니다...");
         // 기능 구현
         // 조회 형식은 자유입니다.
+        System.out.println("\n등록된 수강생 목록");
+        for (Student student : studentStore) {
+            System.out.println("ID : " + String.format("%-15s", student.getStudentId()) +
+                    "이름 : " + String.format("%-15s", student.getStudentName()) +
+                    "수강 과목 : " + student.getStudentSubject());
+        }
         System.out.println("\n수강생 목록 조회 성공!");
     }
 
@@ -284,6 +316,22 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생 정보를 조회합니다...");
         // 기능 구현
+        boolean found = false;
+
+        for (Student student : studentStore) {
+            if (Objects.equals(student.getStudentId(), studentId)) {
+                found = true;
+                System.out.println("\n수강생 정보");
+                System.out.println("ID : " + student.getStudentId());
+                System.out.println("이름 : " + student.getStudentName());
+                System.out.println("수강 과목 : " + student.getStudentSubject());
+            }
+        }
+
+        if (!found) {
+            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+        }
+
         // 조회 형식은 자유입니다.
         System.out.println("\n수강생 정보 조회 성공!");
     }
@@ -412,6 +460,11 @@ public class CampManagementApplication {
 
     private static String getStudentId() {
         System.out.print("관리할 수강생의 번호를 입력하시오...");
+        return "ST" + sc.next();
+    }
+
+    private static String getStudentName() {
+        System.out.print("관리할 수강생의 이름를 입력하시오...");
         return sc.next();
     }
 
