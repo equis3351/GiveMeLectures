@@ -521,7 +521,7 @@ public class CampManagementApplication {
                 }
                 break;
             } catch(Exception e){
-                System.out.println("회차에 10 초과 및 1 미만의 수가 저장될 수 없습니다");
+                System.out.println("점수에 100 초과 및 음수가 저장될 수 없습니다"); // 수정
             }
         }
         return  N;
