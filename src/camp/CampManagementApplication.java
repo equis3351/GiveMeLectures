@@ -410,6 +410,21 @@ public class CampManagementApplication {
         String studentState = getStudentState(); // 조회할 수강생 상태
         System.out.println("상태별 수강생 목록을 조회합니다...");
         // 기능 구현
+        boolean found = false;
+
+        System.out.println("\n수강생 정보");
+        for (Student student : studentStore) {
+            if (Objects.equals(student.getStudentState(), studentState)) {
+                found = true;
+                System.out.println("ID : " + String.format("%-15s", student.getStudentId()) +
+                        "이름 : " + String.format("%-15s", student.getStudentName()) +
+                        "상태 : " + String.format("%-15s", student.getStudentState()));
+            }
+        }
+
+        if (!found) {
+            System.out.println("해당 상태의 수강생을 찾을 수 없습니다.");
+        }
         // 조회 형식은 자유입니다.
         System.out.println("\n상태별 수강생 목록 조회 성공!");
     }
@@ -420,6 +435,22 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생을 삭제합니다...");
         // 기능 구현
+        boolean found = false;
+
+        for (int i = 0; i < studentStore.size(); i++) {
+            Student student = studentStore.get(i);
+            if (Objects.equals(student.getStudentId(), studentId)) {
+                studentStore.remove(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("수강생 삭제 성공!");
+        } else {
+            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+        }
         // 해당 수강생의 점수 기록도 함께 삭제됩니다.
         System.out.println("\n수강생 삭제 성공!");
     }
@@ -551,9 +582,19 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
+        String subjectName, subjectType;
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (수정할 과목 및 회차, 점수)
+        System.out.print("수정할 과목을 입력하시오...");
+        subjectName = sc.nextLine();
+        System.out.println();
+        System.out.print("수정할 회차를 입력하시오...");
+        subjectType = sc.nextLine();
+        System.out.println();
+
+        System.out.print("수정할 시험 점수를 입력하시오...");
+        sc.nextInt();
         System.out.println("시험 점수를 수정합니다...");
         // 기능 구현
         System.out.println("\n점수 수정 성공!");
