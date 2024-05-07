@@ -608,15 +608,15 @@ public class CampManagementApplication {
         Integer score = getTestScore();
         System.out.println("시험 점수를 등록합니다...");
         scoreStore.add(new Score(sequence(INDEX_TYPE_SCORE), studentId,subjectId, testNum, score, checkSubjectType(subjectId)));
-        for (Subject s : subjectStore) {
-            System.out.println(s.getSubjectId());
-            System.out.println(s.getSubjectType());
-        }
-        for (Score s : scoreStore) {
-            System.out.println(s.getScoreId());
-            System.out.println(s.getGrade());
-            System.out.println(s.getSubjectType());
-        }
+//        for (Subject s : subjectStore) {
+//            System.out.println(s.getSubjectId());
+//            System.out.println(s.getSubjectType());
+//        }
+//        for (Score s : scoreStore) {
+//            System.out.println(s.getScoreId());
+//            System.out.println(s.getGrade());
+//            System.out.println(s.getSubjectType());
+//        }
         System.out.println("\n점수 등록 성공!");
     }
 
