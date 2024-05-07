@@ -55,27 +55,27 @@ public class CampManagementApplication {
                 new Student(
                         sequence(INDEX_TYPE_STUDENT),
                         "김우진",
-                        new ArrayList<>(Arrays.asList("1", "2", "3", "6", "7"))
+                        new ArrayList<>(Arrays.asList("SU1", "SU2", "SU3", "SU6", "SU7"))
                 ),
                 new Student(
                         sequence(INDEX_TYPE_STUDENT),
                         "남현",
-                        new ArrayList<>(Arrays.asList("1", "2", "4", "8", "9"))
+                        new ArrayList<>(Arrays.asList("SU1", "SU2", "SU4", "SU8", "SU9"))
                 ),
                 new Student(
                         sequence(INDEX_TYPE_STUDENT),
                         "이민정",
-                        new ArrayList<>(Arrays.asList("1", "4", "5", "6", "7", "9"))
+                        new ArrayList<>(Arrays.asList("SU1", "SU4", "SU5", "SU6", "SU7", "SU9"))
                 ),
                 new Student(
                         sequence(INDEX_TYPE_STUDENT),
                         "이제범",
-                        new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5", "7", "8"))
+                        new ArrayList<>(Arrays.asList("SU1", "SU2", "SU3", "SU4", "SU5", "SU7", "SU8"))
                 ),
                 new Student(
                         sequence(INDEX_TYPE_STUDENT),
                         "조성훈",
-                        new ArrayList<>(Arrays.asList("2", "3", "4", "7", "9"))
+                        new ArrayList<>(Arrays.asList("SU2", "SU3", "SU4", "SU7", "SU9"))
                 )
         ));
         subjectStore = List.of(
@@ -232,7 +232,7 @@ public class CampManagementApplication {
             } else if (subject.equals("6") && mandatorySubjectCount >= 3){
                 break;
             } else if (subject.matches("[1-5]")) {
-                studentSubjects.add(subject);
+                studentSubjects.add("SU" + subject);
                 mandatorySubjectCount++;
             } else {
                 System.out.println("1부터 5 사이의 숫자를 입력해주세요.\n");
@@ -264,7 +264,7 @@ public class CampManagementApplication {
             } else if (subject.equals("10") && choiceSubjectCount >= 2) {
                 break;
             } else if (subject.matches("[6-9]")) {
-                studentSubjects.add(subject);
+                studentSubjects.add("SU" + subject);
                 choiceSubjectCount++;
             } else {
                 System.out.println("6부터 9 사이의 숫자를 입력해주세요.\n");
@@ -281,9 +281,8 @@ public class CampManagementApplication {
         Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, studentSubjects); // 수강생 인스턴스 생성 예시 코드
 
         System.out.println("\n수강생 정보");
-        System.out.println("ID : " + String.format("%-15s", student.getStudentId()) +
-                "이름 : " + String.format("%-15s", student.getStudentName()) +
-                "수강 과목 : " + student.getStudentSubject());
+        printStudentNoStateBar();
+        printStudentNoState(student);
         studentStore.add(student);
         System.out.println("\n수강생 등록 성공!");
     }
@@ -295,12 +294,11 @@ public class CampManagementApplication {
         // 기능 구현
         // 조회 형식은 자유입니다.
         System.out.println("\n등록된 수강생 목록");
+        printStudentAllBar();
         for (Student student : studentStore) {
-            System.out.println("ID : " + String.format("%-15s", student.getStudentId()) +
-                    "이름 : " + String.format("%-15s", student.getStudentName()) +
-                    "상태 : " + String.format("%-15s", student.getStudentState()) +
-                    "수강 과목 : " + student.getStudentSubject());
+            printStudentAll(student);
         }
+
         System.out.println("\n수강생 목록 조회 성공!");
     }
 
@@ -316,7 +314,8 @@ public class CampManagementApplication {
             if (Objects.equals(student.getStudentId(), studentId)) {
                 found = true;
                 System.out.println("\n수강생 정보");
-                printStudentInfo(student);
+                printStudentStateBar();
+                printStudentState(student);
 
                 while (true) {
                     System.out.println("\n수강생의 상태를 입력하세요");
@@ -328,19 +327,22 @@ public class CampManagementApplication {
                         student.setStudentState("Green");
 
                         System.out.println("\n수강생 정보");
-                        printStudentInfo(student);
+                        printStudentStateBar();
+                        printStudentState(student);
                         break;
                     } else if (Objects.equals(newState, "2")) {
                         student.setStudentState("Red");
 
                         System.out.println("\n수강생 정보");
-                        printStudentInfo(student);
+                        printStudentStateBar();
+                        printStudentState(student);
                         break;
                     } else if (Objects.equals(newState, "3")) {
                         student.setStudentState("Yellow");
 
                         System.out.println("\n수강생 정보");
-                        printStudentInfo(student);
+                        printStudentStateBar();
+                        printStudentState(student);
                         break;
                     } else {
                         System.out.println("1부터 3 사이의 숫자를 입력해주세요.");
@@ -368,10 +370,8 @@ public class CampManagementApplication {
             if (Objects.equals(student.getStudentId(), studentId)) {
                 found = true;
                 System.out.println("\n수강생 정보");
-                System.out.println("ID : " + student.getStudentId());
-                System.out.println("이름 : " + student.getStudentName());
-                System.out.println("상태 : " + student.getStudentState());
-                System.out.println("수강 과목 : " + student.getStudentSubject());
+                printStudentAllBar();
+                printStudentAll(student);
             }
         }
 
@@ -395,16 +395,16 @@ public class CampManagementApplication {
             if (Objects.equals(student.getStudentId(), studentId)) {
                 found = true;
                 System.out.println("\n수강생 정보");
-                System.out.println("ID : " + student.getStudentId());
-                System.out.println("이름 : " + student.getStudentName());
+                printStudentNameBar();
+                printStudentName(student);
 
                 System.out.print("\n수강생의 이름을 입력하세요 : ");
                 String newName= sc.next();
                 student.setStudentName(newName);
 
                 System.out.println("\n수강생 정보");
-                System.out.println("ID : " + student.getStudentId());
-                System.out.println("이름 : " + student.getStudentName());
+                printStudentNameBar();
+                printStudentName(student);
             }
         }
 
@@ -450,7 +450,7 @@ public class CampManagementApplication {
         for (Student student : studentStore) {
             if (Objects.equals(student.getStudentState(), studentState)) {
                 found = true;
-                printStudentInfo(student);
+                printStudentState(student);
             }
         }
 
@@ -486,11 +486,74 @@ public class CampManagementApplication {
         }
     }
 
-    // 학생 정보를 출력하는 메서드
-    private static void printStudentInfo(Student student) {
-        System.out.println("ID : " + String.format("%-15s", student.getStudentId()) +
-                "이름 : " + String.format("%-15s", student.getStudentName()) +
-                "상태 : " + String.format("%-15s", student.getStudentState()));
+    // ID, NAME 출력
+    private static void printStudentName(Student student) {
+        System.out.printf("%-8s | %s%n",
+                student.getStudentId(),
+                student.getStudentName());
+    }
+
+    private static void printStudentNameBar() {
+        System.out.printf("%-8s | %s%n", "ID", "이름");
+        System.out.println("-----------------");
+    }
+
+    // ID, NAME, STATE 출력
+    private static void printStudentState(Student student) {
+        int gap = 8;
+        if (student.getStudentName().length() == 2) {
+            gap = 9;
+        } else if (student.getStudentName().length() == 4) {
+            gap = 7;
+        }
+        System.out.printf("%-8s | %-" + gap + "s | %s%n",
+                student.getStudentId(),
+                student.getStudentName(),
+                student.getStudentState());
+    }
+
+    private static void printStudentStateBar() {
+        System.out.printf("%-8s | %-9s | %s%n", "ID", "이름", "상태");
+        System.out.println("------------------------------");
+    }
+
+    // ID, NAME, SUBJECT 출력
+    private static void printStudentNoState(Student student) {
+        int gap = 8;
+        if (student.getStudentName().length() == 2) {
+            gap = 9;
+        } else if (student.getStudentName().length() == 4) {
+            gap = 7;
+        }
+        System.out.printf("%-8s | %-" + gap + "s | %s%n",
+                student.getStudentId(),
+                student.getStudentName(),
+                student.getStudentSubject());
+    }
+
+    private static void printStudentNoStateBar() {
+        System.out.printf("%-8s | %-9s | %s%n", "ID", "이름", "수강 과목");
+        System.out.println("-----------------------------------------");
+    }
+
+    // ID, NAME, STATE, SUBJECT 출력
+    private static void printStudentAll(Student student) {
+        int gap = 8;
+        if (student.getStudentName().length() == 2) {
+            gap = 9;
+        } else if (student.getStudentName().length() == 4) {
+            gap = 7;
+        }
+        System.out.printf("%-8s | %-" + gap + "s | %-10s | %s%n",
+                student.getStudentId(),
+                student.getStudentName(),
+                student.getStudentState(),
+                student.getStudentSubject());
+    }
+
+    private static void printStudentAllBar() {
+        System.out.printf("%-8s | %-9s | %-9s | %s%n", "ID", "이름", "상태", "수강 과목");
+        System.out.println("----------------------------------------------------");
     }
 
     // 2. 점수 관리
