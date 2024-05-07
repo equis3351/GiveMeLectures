@@ -456,20 +456,97 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static void createScore() {
-        System.out.println("==================================");
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        System.out.println("시험 점수를 등록합니다...");
+        String studentId;
+        String subjectId;
+        Integer testNum;
         // 기능 구현
-        // 등록하려는 과목의 회차 점수가 이미 등록되어 있다면 등록할 수 없습니다.
-        // 과목의 회차 점수가 중복되어 등록될 수 없습니다.
-        // 회차에 10 초과 및 1 미만의 수가 저장될 수 없습니다. (회차 범위: 1 ~ 10)
-        // 점수에 100 초과 및 음수가 저장될 수 없습니다. (점수 범위: 0 ~ 100)
-
-        // 점수 데이터 타입 : 정수형
-        // 점수에 따라 등급이 매겨집니다.
-        // 캠프 기간동안 선택한 과목별로 총 10회의 시험을 봅니다.
+        while(true) {
+            try {
+                studentId = getStudentId(); // 관리할 수강생 고유 번호
+                subjectId = getSubjectId();
+                testNum = getTestNumber();
+                if(!checkSavedScore(studentId, subjectId, testNum)){
+                    throw new Exception();
+                }
+                break;
+            }catch(Exception e) {
+                System.out.println("등록하려는 과목의 회차 점수가 이미 등록되어 있습니다");
+            }
+        }
+        Integer score = getTestScore();
+        System.out.println("시험 점수를 등록합니다...");
+        scoreStore.add(new Score(sequence(INDEX_TYPE_SCORE), studentId,subjectId, testNum, score, checkSubjectType(subjectId)));
+        for (Subject s : subjectStore) {
+            System.out.println(s.getSubjectId());
+            System.out.println(s.getSubjectType());
+        }
+        for (Score s : scoreStore) {
+            System.out.println(s.getScoreId());
+            System.out.println(s.getGrade());
+            System.out.println(s.getSubjectType());
+        }
         System.out.println("\n점수 등록 성공!");
-        // 점수를 등록하면 자동으로 등급이 추가 저장됩니다.
+    }
+
+    private static String getSubjectId() {
+        System.out.print("\n등록할 시험 과목의 번호를 입력하시오...");
+        return sc.next();
+    }
+
+    private static Integer getTestNumber() {
+        Integer N;
+        while(true){
+            try{
+                System.out.print("\n시험 회차를 입력하시오...");
+                N = sc.nextInt();
+                if( N > 10 || N < 1){
+                    throw new Exception();
+                }
+                break;
+            } catch(Exception e){
+                System.out.println("회차에 10 초과 및 1 미만의 수가 저장될 수 없습니다");
+            }
+        }
+        return N;
+    }
+
+    private static Integer getTestScore() {
+        Integer N;
+        while(true){
+            try{
+                System.out.print("\n시험 점수를 입력하시오...");
+                N = sc.nextInt();
+                if( N > 100 || N < 0){
+                    throw new Exception();
+                }
+                break;
+            } catch(Exception e){
+                System.out.println("회차에 10 초과 및 1 미만의 수가 저장될 수 없습니다");
+            }
+        }
+        return  N;
+    }
+
+    private static String checkSubjectType(String subjectID){
+        for (Subject subject : subjectStore) {
+            if (Objects.equals(subject.getSubjectId(),subjectID)){
+                return subject.getSubjectType();
+            }
+        }
+        return null;
+    }
+
+    private  static  boolean checkSavedScore(String studentId, String subjectId, Integer testNum){
+        boolean tf = true;
+        if ( !scoreStore.isEmpty()){
+            for (Score s : scoreStore){
+                if (s.getSubjectId().equals(studentId) && s.getSubjectId().equals(subjectId) && s.getTestNum() == testNum){
+                    tf = false;
+                    break;
+                }
+            }
+        }
+        return tf;
     }
 
     // 수강생의 과목별 회차 점수 수정
