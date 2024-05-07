@@ -712,6 +712,11 @@ public class CampManagementApplication {
         }
         System.out.print("\n수정할 회차를 입력하시오...");
         testNum = sc.nextInt();
+        for (Score scorestore : scoreStore) {
+            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectName) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차
+                System.out.println("기존 시험 점수: " + scorestore.getScore());
+            }
+        }
         System.out.print("\n수정할 시험 점수를 입력하시오...");
         score = sc.nextInt();
         System.out.println("\n시험 점수를 수정합니다...");
