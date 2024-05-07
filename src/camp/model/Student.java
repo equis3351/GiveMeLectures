@@ -1,6 +1,7 @@
 package camp.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Student {
     private String studentId;
@@ -28,36 +29,17 @@ public class Student {
         return studentState;
     }
 
-    public String getStudentSubject(int index) {
-        return studentSubject.get(index);
+    public String getStudentSubject() {
+        return Arrays.toString(studentSubject.toArray());
     }
 
     // Setter
-    public void setStudentId(String studentId) {
-        // 수강생의 고유번호는 중복될 수 없습니다.
-        this.studentId = studentId;
-    }
-
     public void setStudentName(String studentName) {
         this.studentName = studentName;
     }
 
     public void setStudentState(String studentState) {
         this.studentState = studentState;
-    }
-
-    public void setStudentSubject(String studentSubject) {
-        this.studentSubject.add(studentSubject);
-    }
-
-    // Inquire
-    public void inquireStudent() {
-
-    }
-
-    // Remove
-    public void removeStudent() {
-
     }
 
 }
