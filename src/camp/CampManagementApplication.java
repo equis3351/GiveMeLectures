@@ -582,9 +582,19 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
+        String subjectName, subjectType;
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (수정할 과목 및 회차, 점수)
+        System.out.print("수정할 과목을 입력하시오...");
+        subjectName = sc.nextLine();
+        System.out.println();
+        System.out.print("수정할 회차를 입력하시오...");
+        subjectType = sc.nextLine();
+        System.out.println();
+
+        System.out.print("수정할 시험 점수를 입력하시오...");
+        sc.nextInt();
         System.out.println("시험 점수를 수정합니다...");
         // 기능 구현
         System.out.println("\n점수 수정 성공!");
