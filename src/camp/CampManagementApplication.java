@@ -629,15 +629,15 @@ public class CampManagementApplication {
         Integer score = getTestScore();
         System.out.println("시험 점수를 등록합니다...");
         scoreStore.add(new Score(sequence(INDEX_TYPE_SCORE), studentId,subjectId, testNum, score, checkSubjectType(subjectId)));
-        for (Subject s : subjectStore) {
-            System.out.println(s.getSubjectId());
-            System.out.println(s.getSubjectType());
-        }
-        for (Score s : scoreStore) {
-            System.out.println(s.getScoreId());
-            System.out.println(s.getGrade());
-            System.out.println(s.getSubjectType());
-        }
+//        for (Subject s : subjectStore) {
+//            System.out.println(s.getSubjectId());
+//            System.out.println(s.getSubjectType());
+//        }
+//        for (Score s : scoreStore) {
+//            System.out.println(s.getScoreId());
+//            System.out.println(s.getGrade());
+//            System.out.println(s.getSubjectType());
+//        }
         System.out.println("\n점수 등록 성공!");
     }
 
@@ -651,7 +651,7 @@ public class CampManagementApplication {
         while(true){
             try{
                 System.out.print("\n시험 회차를 입력하시오...");
-                N = sc.nextInt();
+                N = Integer.parseInt(sc.next()); //수정
                 if( N > 10 || N < 1){
                     throw new Exception();
                 }
@@ -668,13 +668,13 @@ public class CampManagementApplication {
         while(true){
             try{
                 System.out.print("\n시험 점수를 입력하시오...");
-                N = sc.nextInt();
+                N = Integer.parseInt(sc.next()); //수정
                 if( N > 100 || N < 0){
                     throw new Exception();
                 }
                 break;
             } catch(Exception e){
-                System.out.println("회차에 10 초과 및 1 미만의 수가 저장될 수 없습니다");
+                System.out.println("점수에 100 초과 및 음수가 저장될 수 없습니다"); // 수정
             }
         }
         return  N;
