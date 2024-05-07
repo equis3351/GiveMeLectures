@@ -4,11 +4,7 @@ import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Notification
@@ -125,7 +121,18 @@ public class CampManagementApplication {
                         SUBJECT_TYPE_CHOICE
                 )
         );
-        scoreStore = new ArrayList<>();
+        scoreStore = List.of(
+                new Score(
+                    sequence(INDEX_TYPE_SCORE),
+                    "ST1",
+                    "SU1",
+                    1,
+                    95,
+                    SUBJECT_TYPE_MANDATORY
+            )
+
+        );
+
     }
 
     // index 자동 증가
@@ -710,10 +717,21 @@ public class CampManagementApplication {
                 System.out.println("잘못 입력하였습니다. 다시 입력하시오...");
             }
         }
+
+        //subjectName을 SU1, Su2... 등등 바꿔주기
+        ChangeSubjectName changeSubjectName = new ChangeSubjectName();
+        subjectName = changeSubjectName.changeSubjectName(subjectName);
+
+        for (Score scorestore : scoreStore) {
+            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectName)) { // 검증: 학생id, 과목이름
+                System.out.println("작성된 회차: " + scorestore.getTestNum());
+            }
+        }
         System.out.print("\n수정할 회차를 입력하시오...");
         testNum = sc.nextInt();
+
         for (Score scorestore : scoreStore) {
-            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectName) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차
+            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectName) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차  // subject == SU1
                 System.out.println("기존 시험 점수: " + scorestore.getScore());
             }
         }
