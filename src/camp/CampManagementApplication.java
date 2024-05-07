@@ -296,6 +296,7 @@ public class CampManagementApplication {
         for (Student student : studentStore) {
             System.out.println("ID : " + String.format("%-15s", student.getStudentId()) +
                     "이름 : " + String.format("%-15s", student.getStudentName()) +
+                    "상태 : " + String.format("%-15s", student.getStudentState()) +
                     "수강 과목 : " + student.getStudentSubject());
         }
         System.out.println("\n수강생 목록 조회 성공!");
@@ -307,6 +308,43 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생 상태를 관리합니다...");
         // 기능 구현
+        boolean found = false;
+
+        for (Student student : studentStore) {
+            if (Objects.equals(student.getStudentId(), studentId)) {
+                found = true;
+                System.out.println("\n수강생 정보");
+                System.out.println("ID : " + student.getStudentId());
+                System.out.println("이름 : " + student.getStudentName());
+                System.out.println("상태 : " + student.getStudentState());
+                System.out.println();
+
+                while (true) {
+                    System.out.println("수강생의 상태를 입력하세요 : ");
+                    System.out.println("1. Green");
+                    System.out.println("2. Red");
+                    System.out.println("3. Yellow");
+                    String newState= sc.next();
+                    if (Objects.equals(newState, "1")) {
+                        student.setStudentState("Green");
+                        break;
+                    } else if (Objects.equals(newState, "2")) {
+                        student.setStudentState("Red");
+                        break;
+                    } else if (Objects.equals(newState, "3")) {
+                        student.setStudentState("Yellow");
+                        break;
+                    } else {
+                        System.out.println("1부터 5 사이의 숫자를 입력해주세요.");
+                    }
+                }
+            }
+        }
+
+        if (!found) {
+            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+        }
+
         System.out.println("\n수강생 상태 관리 성공!");
     }
 
@@ -324,6 +362,7 @@ public class CampManagementApplication {
                 System.out.println("\n수강생 정보");
                 System.out.println("ID : " + student.getStudentId());
                 System.out.println("이름 : " + student.getStudentName());
+                System.out.println("상태 : " + student.getStudentState());
                 System.out.println("수강 과목 : " + student.getStudentSubject());
             }
         }
@@ -342,6 +381,25 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생 정보를 수정합니다...");
         // 기능 구현
+        boolean found = false;
+
+        for (Student student : studentStore) {
+            if (Objects.equals(student.getStudentId(), studentId)) {
+                found = true;
+                System.out.println("\n수강생 정보");
+                System.out.println("ID : " + student.getStudentId());
+                System.out.println("이름 : " + student.getStudentName());
+                System.out.println();
+
+                System.out.print("수강생의 이름을 입력하세요 : ");
+                String newName= sc.next();
+                student.setStudentName(newName);
+            }
+        }
+
+        if (!found) {
+            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+        }
         // 이름 또는 상태를 입력받아 수정하시면 됩니다.
         System.out.println("\n수강생 정보 수정 성공!");
     }
