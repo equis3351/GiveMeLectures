@@ -620,21 +620,44 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
-        String subjectName, subjectType;
+        String subjectName="", subjectType, scoreId;
+        int textNum, score, testNum;
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (수정할 과목 및 회차, 점수)
-        System.out.print("수정할 과목을 입력하시오...");
-        subjectName = sc.nextLine();
-        System.out.println();
-        System.out.print("수정할 회차를 입력하시오...");
-        subjectType = sc.nextLine();
-        System.out.println();
-
-        System.out.print("수정할 시험 점수를 입력하시오...");
-        sc.nextInt();
-        System.out.println("시험 점수를 수정합니다...");
+        for(Student student : studentStore) {
+            if(student.getStudentId().equals(studentId)) {
+                System.out.println("1. Java, 2. 객체지향, 3. Spring, 4. JPA, 5. MySQL, 6. 디자인 패턴, 7. Spring Security, 8. Redis, 9.MongoDB");
+                System.out.println("학생이 선택한 과목 : " + student.getStudentSubject()); // 학생 과목 출력
+                break;
+            }
+        }
+        System.out.print("수정할 과목을 입력하시오...(과목명으로 입력)");
+        sc.nextLine();
+        boolean flag=true;
+        while(flag) {
+            subjectName = sc.nextLine();    // 이름으로 받아야함.
+            for(Subject subject:subjectStore) {
+                if(subject.getSubjectName().equals(subjectName)){
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag == true) {
+                System.out.println("잘못 입력하였습니다. 다시 입력하시오...");
+            }
+        }
+        System.out.print("\n수정할 회차를 입력하시오...");
+        testNum = sc.nextInt();
+        System.out.print("\n수정할 시험 점수를 입력하시오...");
+        score = sc.nextInt();
+        System.out.println("\n시험 점수를 수정합니다...");
         // 기능 구현
+        for (Score scorestore : scoreStore) {
+             if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectName) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차
+                scorestore.setscore(score);
+            }
+        }
         System.out.println("\n점수 수정 성공!");
     }
 

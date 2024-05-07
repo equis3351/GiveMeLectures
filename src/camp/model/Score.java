@@ -5,11 +5,11 @@ public class Score {
     private String studentId;
 
     private String subjectId;
-    private int testNum;
-    private int score;
+    private int testNum;    //회차
+    private int score;  //점수
 
     private String subjectType;
-    private char grade;
+    private char grade; //등급
     
     public Score(String seq, String studentId, String subjectId, int testNum, int score, String subjectType){
         this.scoreId = seq;
@@ -86,4 +86,8 @@ public class Score {
         return grade;
     }
 
+    // setter
+    public void setscore(int score) {
+        this.score = score;
+    }
 }
