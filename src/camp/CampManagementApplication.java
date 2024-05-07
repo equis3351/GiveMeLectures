@@ -467,6 +467,22 @@ public class CampManagementApplication {
         System.out.println("수강생을 삭제합니다...");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
+        boolean found = false;
+
+        for (int i = 0; i < studentStore.size(); i++) {
+            Student student = studentStore.get(i);
+            if (Objects.equals(student.getStudentId(), studentId)) {
+                studentStore.remove(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("수강생 삭제 성공!");
+        } else {
+            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+        }
         // 해당 수강생의 점수 기록도 함께 삭제됩니다.
         boolean found = false;
 
