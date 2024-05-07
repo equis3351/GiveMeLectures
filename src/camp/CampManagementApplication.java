@@ -212,15 +212,13 @@ public class CampManagementApplication {
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
 
-        // 기능 구현 (필수 과목, 선택 과목)
-        // 최소 3개 이상의 필수 과목, 2개 이상의 선택 과목을 선택합니다.
         ArrayList<String> studentSubjects = new ArrayList<>();
 
         // 필수 과목 선택
         int mandatorySubjectCount = 0;
         while (mandatorySubjectCount < 5) {
             System.out.println("==================================");
-            System.out.println("3개 이상의 필수 과목을 선택해주세요.");
+            System.out.println("3개 이상의 필수 과목을 선택해주세요.\n");
             for (int i = 0; i < subjectStore.size(); i++) {
                 Subject subject = subjectStore.get(i);
                 if (Objects.equals(subject.getSubjectType(), SUBJECT_TYPE_MANDATORY)) {
@@ -230,14 +228,14 @@ public class CampManagementApplication {
             System.out.println("6. 필수 과목 선택 종료");
             String subject = sc.next();
             if (studentSubjects.contains(subject)) {
-                System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.");
+                System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.\n");
             } else if (subject.equals("6") && mandatorySubjectCount >= 3){
                 break;
             } else if (subject.matches("[1-5]")) {
                 studentSubjects.add(subject);
                 mandatorySubjectCount++;
             } else {
-                System.out.println("1부터 5 사이의 숫자를 입력해주세요.");
+                System.out.println("1부터 5 사이의 숫자를 입력해주세요.\n");
             }
 
             System.out.print("선택한 과목 : ");
@@ -252,7 +250,7 @@ public class CampManagementApplication {
         int choiceSubjectCount = 0;
         while (choiceSubjectCount < 4) {
             System.out.println("==================================");
-            System.out.println("2개 이상의 선택 과목을 선택해주세요.");
+            System.out.println("2개 이상의 선택 과목을 선택해주세요.\n");
             for (int i = 0; i < subjectStore.size(); i++) {
                 Subject subject = subjectStore.get(i);
                 if (Objects.equals(subject.getSubjectType(), SUBJECT_TYPE_CHOICE)) {
@@ -262,14 +260,14 @@ public class CampManagementApplication {
             System.out.println("10. 선택 과목 선택 종료");
             String subject = sc.next();
             if (studentSubjects.contains(subject)) {
-                System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.");
+                System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.\n");
             } else if (subject.equals("10") && choiceSubjectCount >= 2) {
                 break;
             } else if (subject.matches("[6-9]")) {
                 studentSubjects.add(subject);
                 choiceSubjectCount++;
             } else {
-                System.out.println("6부터 9 사이의 숫자를 입력해주세요.");
+                System.out.println("6부터 9 사이의 숫자를 입력해주세요.\n");
             }
 
             System.out.print("선택한 과목 : ");
@@ -281,9 +279,13 @@ public class CampManagementApplication {
         }
 
         Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, studentSubjects); // 수강생 인스턴스 생성 예시 코드
-        // 기능 구현
+
+        System.out.println("\n수강생 정보");
+        System.out.println("ID : " + String.format("%-15s", student.getStudentId()) +
+                "이름 : " + String.format("%-15s", student.getStudentName()) +
+                "수강 과목 : " + student.getStudentSubject());
         studentStore.add(student);
-        System.out.println("수강생 등록 성공!");
+        System.out.println("\n수강생 등록 성공!");
     }
 
     // 수강생 목록 조회
@@ -314,35 +316,41 @@ public class CampManagementApplication {
             if (Objects.equals(student.getStudentId(), studentId)) {
                 found = true;
                 System.out.println("\n수강생 정보");
-                System.out.println("ID : " + student.getStudentId());
-                System.out.println("이름 : " + student.getStudentName());
-                System.out.println("상태 : " + student.getStudentState());
-                System.out.println();
+                printStudentInfo(student);
 
                 while (true) {
-                    System.out.println("수강생의 상태를 입력하세요 : ");
+                    System.out.println("\n수강생의 상태를 입력하세요");
                     System.out.println("1. Green");
                     System.out.println("2. Red");
                     System.out.println("3. Yellow");
                     String newState= sc.next();
                     if (Objects.equals(newState, "1")) {
                         student.setStudentState("Green");
+
+                        System.out.println("\n수강생 정보");
+                        printStudentInfo(student);
                         break;
                     } else if (Objects.equals(newState, "2")) {
                         student.setStudentState("Red");
+
+                        System.out.println("\n수강생 정보");
+                        printStudentInfo(student);
                         break;
                     } else if (Objects.equals(newState, "3")) {
                         student.setStudentState("Yellow");
+
+                        System.out.println("\n수강생 정보");
+                        printStudentInfo(student);
                         break;
                     } else {
-                        System.out.println("1부터 5 사이의 숫자를 입력해주세요.");
+                        System.out.println("1부터 3 사이의 숫자를 입력해주세요.");
                     }
                 }
             }
         }
 
         if (!found) {
-            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+            System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
 
         System.out.println("\n수강생 상태 관리 성공!");
@@ -368,7 +376,7 @@ public class CampManagementApplication {
         }
 
         if (!found) {
-            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+            System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
 
         // 조회 형식은 자유입니다.
@@ -389,16 +397,19 @@ public class CampManagementApplication {
                 System.out.println("\n수강생 정보");
                 System.out.println("ID : " + student.getStudentId());
                 System.out.println("이름 : " + student.getStudentName());
-                System.out.println();
 
-                System.out.print("수강생의 이름을 입력하세요 : ");
+                System.out.print("\n수강생의 이름을 입력하세요 : ");
                 String newName= sc.next();
                 student.setStudentName(newName);
+
+                System.out.println("\n수강생 정보");
+                System.out.println("ID : " + student.getStudentId());
+                System.out.println("이름 : " + student.getStudentName());
             }
         }
 
         if (!found) {
-            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+            System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
         // 이름 또는 상태를 입력받아 수정하시면 됩니다.
         System.out.println("\n수강생 정보 수정 성공!");
@@ -407,18 +418,39 @@ public class CampManagementApplication {
     // 상태별 수강생 목록 조회
     private static void inquireStudentState() {
         System.out.println("==================================");
-        String studentState = getStudentState(); // 조회할 수강생 상태
         System.out.println("상태별 수강생 목록을 조회합니다...");
+        System.out.println("1. Green");
+        System.out.println("2. Red");
+        System.out.println("3. Yellow");
+
+        String studentState = "";
+
+        while (true) {
+            System.out.print("\n조회할 수강생의 상태를 입력하세요...");
+            String input = sc.next();
+
+            if (Objects.equals(input, "1")) {
+                studentState = "Green";
+                break;
+            } else if (Objects.equals(input, "2")) {
+                studentState = "Red";
+                break;
+            } else if (Objects.equals(input, "3")) {
+                studentState = "Yellow";
+                break;
+            } else {
+                System.out.println("1부터 3 사이의 숫자를 입력해주세요.");
+            }
+        }
+
         // 기능 구현
         boolean found = false;
 
-        System.out.println("\n수강생 정보");
+        System.out.println();
         for (Student student : studentStore) {
             if (Objects.equals(student.getStudentState(), studentState)) {
                 found = true;
-                System.out.println("ID : " + String.format("%-15s", student.getStudentId()) +
-                        "이름 : " + String.format("%-15s", student.getStudentName()) +
-                        "상태 : " + String.format("%-15s", student.getStudentState()));
+                printStudentInfo(student);
             }
         }
 
@@ -432,8 +464,8 @@ public class CampManagementApplication {
     // 수강생 삭제
     private static void removeStudent() {
         System.out.println("==================================");
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생을 삭제합니다...");
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
         boolean found = false;
 
@@ -452,7 +484,29 @@ public class CampManagementApplication {
             System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
         }
         // 해당 수강생의 점수 기록도 함께 삭제됩니다.
-        System.out.println("\n수강생 삭제 성공!");
+        boolean found = false;
+
+        for (int i = 0; i < studentStore.size(); i++) {
+            Student student = studentStore.get(i);
+            if (Objects.equals(student.getStudentId(), studentId)) {
+                studentStore.remove(i);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("\n수강생 삭제 성공!");
+        } else {
+            System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
+        }
+    }
+
+    // 학생 정보를 출력하는 메서드
+    private static void printStudentInfo(Student student) {
+        System.out.println("ID : " + String.format("%-15s", student.getStudentId()) +
+                "이름 : " + String.format("%-15s", student.getStudentName()) +
+                "상태 : " + String.format("%-15s", student.getStudentState()));
     }
 
     // 2. 점수 관리
@@ -646,6 +700,9 @@ public class CampManagementApplication {
 
     private static String getStudentState() {
         System.out.print("조회할 수강생의 상태를 입력하시오...");
+        System.out.println("1. Green");
+        System.out.println("2. Red");
+        System.out.println("3. Yellow");
         return sc.next();
     }
 
