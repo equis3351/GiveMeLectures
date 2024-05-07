@@ -567,7 +567,7 @@ public class CampManagementApplication {
         while(true){
             try{
                 System.out.print("\n시험 회차를 입력하시오...");
-                N = sc.nextInt();
+                N = Integer.parseInt(sc.next()); //수정
                 if( N > 10 || N < 1){
                     throw new Exception();
                 }
@@ -584,7 +584,7 @@ public class CampManagementApplication {
         while(true){
             try{
                 System.out.print("\n시험 점수를 입력하시오...");
-                N = sc.nextInt();
+                N = Integer.parseInt(sc.next()); //수정
                 if( N > 100 || N < 0){
                     throw new Exception();
                 }
