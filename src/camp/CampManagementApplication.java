@@ -6,6 +6,8 @@ import camp.model.Subject;
 
 import java.util.*;
 
+import static java.sql.Types.NULL;
+
 /**
  * Notification
  * Java, 객체지향이 아직 익숙하지 않은 분들은 위한 소스코드 틀입니다.
@@ -49,78 +51,78 @@ public class CampManagementApplication {
     // 초기 데이터 생성
     private static void setInitData() {
         subjectStore = List.of(
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Java",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "객체지향",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Spring",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "JPA",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "MySQL",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "디자인 패턴",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Spring Security",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Redis",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "MongoDB",
-                        SUBJECT_TYPE_CHOICE
-                )
+            new Subject(
+                    sequence(INDEX_TYPE_SUBJECT),
+                    "Java",
+                    SUBJECT_TYPE_MANDATORY
+            ),
+            new Subject(
+                    sequence(INDEX_TYPE_SUBJECT),
+                    "객체지향",
+                    SUBJECT_TYPE_MANDATORY
+            ),
+            new Subject(
+                    sequence(INDEX_TYPE_SUBJECT),
+                    "Spring",
+                    SUBJECT_TYPE_MANDATORY
+            ),
+            new Subject(
+                    sequence(INDEX_TYPE_SUBJECT),
+                    "JPA",
+                    SUBJECT_TYPE_MANDATORY
+            ),
+            new Subject(
+                    sequence(INDEX_TYPE_SUBJECT),
+                    "MySQL",
+                    SUBJECT_TYPE_MANDATORY
+            ),
+            new Subject(
+                    sequence(INDEX_TYPE_SUBJECT),
+                    "디자인 패턴",
+                    SUBJECT_TYPE_CHOICE
+            ),
+            new Subject(
+                    sequence(INDEX_TYPE_SUBJECT),
+                    "Spring Security",
+                    SUBJECT_TYPE_CHOICE
+            ),
+            new Subject(
+                    sequence(INDEX_TYPE_SUBJECT),
+                    "Redis",
+                    SUBJECT_TYPE_CHOICE
+            ),
+            new Subject(
+                    sequence(INDEX_TYPE_SUBJECT),
+                    "MongoDB",
+                    SUBJECT_TYPE_CHOICE
+            )
         );
         studentStore = new ArrayList<>(List.of(
-                new Student(
-                        sequence(INDEX_TYPE_STUDENT),
-                        "김우진",
-                        new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(1), subjectStore.get(2), subjectStore.get(5), subjectStore.get(6)))
-                ),
-                new Student(
-                        sequence(INDEX_TYPE_STUDENT),
-                        "남현",
-                        new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(1), subjectStore.get(3), subjectStore.get(7), subjectStore.get(8)))
-                ),
-                new Student(
-                        sequence(INDEX_TYPE_STUDENT),
-                        "이민정",
-                        new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(3), subjectStore.get(4), subjectStore.get(5), subjectStore.get(6), subjectStore.get(8)))
-                ),
-                new Student(
-                        sequence(INDEX_TYPE_STUDENT),
-                        "이제범",
-                        new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(1), subjectStore.get(2), subjectStore.get(3), subjectStore.get(4), subjectStore.get(6), subjectStore.get(7)))
-                ),
-                new Student(
-                        sequence(INDEX_TYPE_STUDENT),
-                        "조성훈",
-                        new ArrayList<>(Arrays.asList(subjectStore.get(1), subjectStore.get(2), subjectStore.get(3), subjectStore.get(6), subjectStore.get(8)))
-                )
+            new Student(
+                    sequence(INDEX_TYPE_STUDENT),
+                    "김우진",
+                    new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(1), subjectStore.get(2), subjectStore.get(5), subjectStore.get(6)))
+            ),
+            new Student(
+                    sequence(INDEX_TYPE_STUDENT),
+                    "남현",
+                    new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(1), subjectStore.get(3), subjectStore.get(7), subjectStore.get(8)))
+            ),
+            new Student(
+                    sequence(INDEX_TYPE_STUDENT),
+                    "이민정",
+                    new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(3), subjectStore.get(4), subjectStore.get(5), subjectStore.get(6), subjectStore.get(8)))
+            ),
+            new Student(
+                    sequence(INDEX_TYPE_STUDENT),
+                    "이제범",
+                    new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(1), subjectStore.get(2), subjectStore.get(3), subjectStore.get(4), subjectStore.get(6), subjectStore.get(7)))
+            ),
+            new Student(
+                    sequence(INDEX_TYPE_STUDENT),
+                    "조성훈",
+                    new ArrayList<>(Arrays.asList(subjectStore.get(1), subjectStore.get(2), subjectStore.get(3), subjectStore.get(6), subjectStore.get(8)))
+            )
         ));
         scoreStore = new ArrayList<>(List.of(
                 new Score(
@@ -791,8 +793,8 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
-        String subjectName="", subjectType, scoreId;
-        int textNum, score, testNum;
+        String subjectId="";
+        int score, testNum=0;
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (수정할 과목 및 회차, 점수)
@@ -803,45 +805,59 @@ public class CampManagementApplication {
                 break;
             }
         }
-        System.out.print("수정할 과목을 입력하시오...(과목명으로 입력)");
+        System.out.print("수정할 과목을 입력하시오...");
         sc.nextLine();
         boolean flag=true;
         while(flag) {
-            subjectName = sc.nextLine();    // 이름으로 받아야함.
-            for(Subject subject:subjectStore) {
-                if(subject.getSubjectName().equals(subjectName)){
+            subjectId = sc.nextLine();    // 이름으로 받아야함. --> 번호로 받도록 수정
+            subjectId = "SU"+subjectId;     //subjectId(1, 2...)을 SU1, Su2... 등등 바꿔주기
+            for(Score scorestore: scoreStore) {
+                if(scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum() != NULL){
                     flag = false;
                     break;
                 }
             }
             if (flag == true) {
-                System.out.println("잘못 입력하였습니다. 다시 입력하시오...");
+                System.out.println("없는 과목이거나 회차가 존재하지 않습니다.\n다시 입력하시오...");
+                continue;
             }
+        }   // 해당 과목에 대한 회차가 있으면 넘어가도록 수정하기
+
+        flag = true;
+        while (flag) {
+            for (Score scorestore : scoreStore) {
+                if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId)) { // 검증: 학생id, 과목이름
+                    System.out.println("작성된 회차: " + scorestore.getTestNum());
+                }
+            }
+            System.out.print("\n수정할 회차를 입력하시오...");
+            testNum = sc.nextInt();
+            for (Score scorestore : scoreStore) {
+                if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum() == testNum ) { // 검증: 학생id, 과목이름, 회차
+                    flag=false;
+                    break;
+                }
+            }
+            System.out.println("잘못된 입력입니다.\n다시 입력하시오...");
         }
 
-        //subjectName을 SU1, Su2... 등등 바꿔주기
-        ChangeSubjectName changeSubjectName = new ChangeSubjectName();
-        subjectName = changeSubjectName.changeSubjectName(subjectName);
-
         for (Score scorestore : scoreStore) {
-            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectName)) { // 검증: 학생id, 과목이름
-                System.out.println("작성된 회차: " + scorestore.getTestNum());
-            }
-        }
-        System.out.print("\n수정할 회차를 입력하시오...");
-        testNum = sc.nextInt();
-
-        for (Score scorestore : scoreStore) {
-            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectName) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차  // subject == SU1
+            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차  // subject == SU1
                 System.out.println("기존 시험 점수: " + scorestore.getScore());
             }
         }
-        System.out.print("\n수정할 시험 점수를 입력하시오...");
-        score = sc.nextInt();
+        while (true) {
+            System.out.print("\n수정할 시험 점수를 입력하시오...");
+            score = sc.nextInt();
+            if (score > 100 || score < 0) {
+                System.out.println("잘못 입력하였습니다...");
+            }
+            else break;
+        }
         System.out.println("\n시험 점수를 수정합니다...");
         // 기능 구현
         for (Score scorestore : scoreStore) {
-             if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectName) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차
+             if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차
                 scorestore.setscore(score);
             }
         }
