@@ -51,6 +51,7 @@ public class Score {
     }
 
     char gradeCheck(int score, String subjectType) {
+
         char grade;
 
         if (subjectType.equals("MANDATORY")) {
