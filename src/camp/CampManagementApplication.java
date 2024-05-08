@@ -128,9 +128,32 @@ public class CampManagementApplication {
                     "SU1",
                     1,
                     95,
-                    SUBJECT_TYPE_MANDATORY
+                SUBJECT_TYPE_MANDATORY
+                ),
+                new Score(
+                        sequence(INDEX_TYPE_SCORE),
+                        "ST2",
+                        "SU1",
+                        1,
+                        65,
+                        SUBJECT_TYPE_MANDATORY
+                ),
+                new Score(
+                        sequence(INDEX_TYPE_SCORE),
+                        "ST4",
+                        "SU1",
+                        1,
+                        45,
+                        SUBJECT_TYPE_MANDATORY
+                ),
+            new Score(
+                sequence(INDEX_TYPE_SCORE),
+                "ST5",
+                "SU1",
+                1,
+                45,
+                SUBJECT_TYPE_MANDATORY
             )
-
         );
     }
 
