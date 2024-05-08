@@ -740,6 +740,12 @@ public class CampManagementApplication {
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (과목별 평균 등급)
+        for(Student student : studentStore) {
+            System.out.println(student);
+            if(student.getStudentId().equals(studentId)) {
+
+            }
+        }
         System.out.println("과목별 평균 등급을 조회합니다...");
         // 기능 구현
         // 조회 형식은 자유입니다.
