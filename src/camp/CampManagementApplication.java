@@ -856,9 +856,18 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (과목별 평균 등급)
         for(Student student : studentStore) {
-            System.out.println(student);
             if(student.getStudentId().equals(studentId)) {
-
+                for (Subject subject : student.getStudentSubject()){
+                    String subjectId = subject.getSubjectId();//타입이 String 이라서
+                    int totalScore = 0;
+                    for(Score score : scoreStore) {
+                        String scoreSubjectId = subject.getSubjectId();
+                        String scoreStudentId = student.getStudentId();
+                        if (studentId.equals(scoreStudentId) && subjectId.equals(scoreSubjectId)){
+                          totalScore = totalScore + score.getScore();
+                        }
+                    }
+                }
             }
         }
         System.out.println("과목별 평균 등급을 조회합니다...");
