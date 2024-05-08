@@ -3,13 +3,11 @@ package camp.model;
 public class Score {
     private String scoreId;
     private String studentId;
-
     private String subjectId;
-    private int round;    //회차
-    private int score;  //점수
-
-    private String subjectType;
-    private char grade; //등급
+    private int round; // 회차
+    private int score; // 점수
+    private String subjectType; // 필수 or 선택
+    private char grade; // 등급
     
     public Score(String seq, String studentId, String subjectId, int round, int score, String subjectType){
         this.scoreId = seq;
@@ -87,7 +85,7 @@ public class Score {
         return grade;
     }
 
-    // setter
+    // Setter
     public void setScore(int score) {
         this.score = score;
     }
