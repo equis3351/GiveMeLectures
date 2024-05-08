@@ -674,7 +674,7 @@ public class CampManagementApplication {
         Integer score = getTestScore();
 
         printScoreStateBar();
-        printScoreState(studentId, subjectId, score);
+        printScoreState(studentId, subjectId, testNum, score);
         System.out.println("시험 점수를 등록합니다...");
         scoreStore.add(new Score(sequence(INDEX_TYPE_SCORE), studentId,subjectId, testNum, score, checkSubjectType(subjectId)));
 
@@ -685,18 +685,12 @@ public class CampManagementApplication {
     }
 
     private static void printScoreStateBar(){
-        System.out.printf("%-8s | %-9s | %s%n", "수강생", "과목", "점수");
+        System.out.printf("%-8s | %-9s | %-9s | %s%n ", "student", "subject","test", "score");
         System.out.println("------------------------------");
     }
 
-    private static void printScoreState(String A, String B, Integer C){
-        int gap = 8;
-        if (B.length() == 2) {
-            gap = 9;
-        } else if (B.length() == 4) {
-            gap = 7;
-        }
-        System.out.printf("%-8s | %-" + gap + "s | %d%n",A,B,C);
+    private static void printScoreState(String A, String B, Integer C, Integer D){
+        System.out.printf("%-8s | %-9s | %-9d | %d%n",A,B,C,D);
     }
 
 
