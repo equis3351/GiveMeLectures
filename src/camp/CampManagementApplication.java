@@ -221,10 +221,14 @@ public class CampManagementApplication {
         List<Subject> studentSubjects = new ArrayList<>();
 
         // 필수 과목 선택
-        int mandatorySubjectCount = 0;
+        int mandatorySubjectCount = 0; // 선택한 필수 과목 수 초기화
+
+        // 최대 5개의 필수 과목을 선택할 때까지 반복
         while (mandatorySubjectCount < 5) {
             System.out.println("==================================");
             System.out.println("3개 이상의 필수 과목을 선택해주세요.\n");
+
+            // 선택 가능한 필수 과목 목록 출력
             for (int i = 0; i < subjectStore.size(); i++) {
                 Subject subject = subjectStore.get(i);
                 if (Objects.equals(subject.getSubjectType(), SUBJECT_TYPE_MANDATORY)) {
@@ -232,19 +236,32 @@ public class CampManagementApplication {
                 }
             }
             System.out.println("6. 필수 과목 선택 종료");
+
+            // 사용자로부터 과목 선택 입력 받기
             String subject = sc.next();
+
+            // 선택한 과목 찾기
             Subject foundSubject = findSubjectById(subject);
+
+            // 이미 선택된 과목인지 확인하고 메시지 출력
             if (studentSubjects.contains(foundSubject)) {
                 System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.\n");
-            } else if (subject.equals("6") && mandatorySubjectCount >= 3){
+            }
+            // 선택 종료 조건 확인
+            else if (subject.equals("6") && mandatorySubjectCount >= 3){
                 break;
-            } else if (subject.matches("[1-5]")) {
+            }
+            // 유효한 선택인지 확인하고 선택한 과목 목록에 추가
+            else if (subject.matches("[1-5]")) {
                 studentSubjects.add(foundSubject);
                 mandatorySubjectCount++;
-            } else {
+            }
+            // 잘못된 입력 처리
+            else {
                 System.out.println("1부터 5 사이의 숫자를 입력해주세요.\n");
             }
 
+            // 선택한 과목 목록 출력
             System.out.print("\n선택한 과목\n");
             for (Subject selected : studentSubjects) {
                 System.out.println(selected);
@@ -254,10 +271,14 @@ public class CampManagementApplication {
         }
 
         // 선택 과목 선택
-        int choiceSubjectCount = 0;
+        int choiceSubjectCount = 0; // 선택한 과목 수 초기화
+
+        // 최대 4개의 선택 과목을 선택할 때까지 반복
         while (choiceSubjectCount < 4) {
             System.out.println("==================================");
             System.out.println("2개 이상의 선택 과목을 선택해주세요.\n");
+
+            // 선택 가능한 과목 목록 출력
             for (int i = 0; i < subjectStore.size(); i++) {
                 Subject subject = subjectStore.get(i);
                 if (Objects.equals(subject.getSubjectType(), SUBJECT_TYPE_CHOICE)) {
@@ -265,19 +286,32 @@ public class CampManagementApplication {
                 }
             }
             System.out.println("10. 선택 과목 선택 종료");
+
+            // 사용자로부터 과목 선택 입력 받기
             String subject = sc.next();
+
+            // 선택한 과목 찾기
             Subject foundSubject = findSubjectById(subject);
+
+            // 이미 선택된 과목인지 확인하고 메시지 출력
             if (studentSubjects.contains(foundSubject)) {
                 System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.\n");
-            } else if (subject.equals("10") && choiceSubjectCount >= 2) {
+            }
+            // 선택 종료 조건 확인
+            else if (subject.equals("10") && choiceSubjectCount >= 2) {
                 break;
-            } else if (subject.matches("[6-9]")) {
+            }
+            // 유효한 선택인지 확인하고 선택한 과목 목록에 추가
+            else if (subject.matches("[6-9]")) {
                 studentSubjects.add(foundSubject);
                 choiceSubjectCount++;
-            } else {
+            }
+            // 잘못된 입력 처리
+            else {
                 System.out.println("6부터 9 사이의 숫자를 입력해주세요.\n");
             }
 
+            // 선택한 과목 목록 출력
             System.out.print("\n선택한 과목\n");
             for (Subject selected : studentSubjects) {
                 System.out.println(selected);
@@ -286,11 +320,13 @@ public class CampManagementApplication {
 
         }
 
-        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, studentSubjects); // 수강생 인스턴스 생성 예시 코드
+        // 수강생 인스턴스 생성 코드
+        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, studentSubjects);
 
         System.out.println("\n수강생 정보");
         printStudentNoStateBar();
         printStudentNoState(student);
+
         studentStore.add(student);
         System.out.println("\n수강생 등록 성공!");
     }
@@ -302,7 +338,7 @@ public class CampManagementApplication {
                 return subject;
             }
         }
-        return null; // 일치하는 과목이 없을 경우 null 반환
+        return null;
     }
 
     // 수강생 목록 조회
@@ -323,8 +359,8 @@ public class CampManagementApplication {
     // 수강생 상태 관리
     private static void updateStudentState() {
         System.out.println("==================================");
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생 상태를 관리합니다...");
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
         boolean found = false;
 
@@ -341,6 +377,7 @@ public class CampManagementApplication {
                     System.out.println("2. Red");
                     System.out.println("3. Yellow");
                     String newState= sc.next();
+
                     if (Objects.equals(newState, "1")) {
                         student.setStudentState("Green");
 
@@ -369,49 +406,52 @@ public class CampManagementApplication {
             }
         }
 
-        if (!found) {
+        if (found) {
+            System.out.println("\n수강생 상태 관리 성공!");
+        } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
 
-        System.out.println("\n수강생 상태 관리 성공!");
     }
 
     // 수강생 정보 조회
     private static void inquireStudentInformation() {
         System.out.println("==================================");
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생 정보를 조회합니다...");
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
         boolean found = false;
 
         for (Student student : studentStore) {
             if (Objects.equals(student.getStudentId(), studentId)) {
-                found = true;
                 System.out.println("\n수강생 정보");
+                // 조회 형식은 자유입니다.
                 printStudentAllBar();
                 printStudentAll(student);
+
+                found = true;
             }
         }
 
-        if (!found) {
+        if (found) {
+            System.out.println("\n수강생 정보 조회 성공!");
+        } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
 
-        // 조회 형식은 자유입니다.
-        System.out.println("\n수강생 정보 조회 성공!");
     }
 
     // 수강생 정보 수정
     private static void updateStudent() {
         System.out.println("==================================");
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생 정보를 수정합니다...");
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
+        // 이름 또는 상태를 입력받아 수정하시면 됩니다.
         boolean found = false;
 
         for (Student student : studentStore) {
             if (Objects.equals(student.getStudentId(), studentId)) {
-                found = true;
                 System.out.println("\n수강생 정보");
                 printStudentNameBar();
                 printStudentName(student);
@@ -423,14 +463,17 @@ public class CampManagementApplication {
                 System.out.println("\n수강생 정보");
                 printStudentNameBar();
                 printStudentName(student);
+
+                found = true;
             }
         }
 
-        if (!found) {
+        if (found) {
+            System.out.println("\n수강생 정보 수정 성공!");
+        } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
-        // 이름 또는 상태를 입력받아 수정하시면 됩니다.
-        System.out.println("\n수강생 정보 수정 성공!");
+
     }
 
     // 상태별 수강생 목록 조회
@@ -441,20 +484,15 @@ public class CampManagementApplication {
         System.out.println("2. Red");
         System.out.println("3. Yellow");
 
-        String studentState = "";
+        String studentState;
+        String[] states = {"Green", "Red", "Yellow"};
 
         while (true) {
             System.out.print("\n조회할 수강생의 상태를 입력하세요...");
-            String input = sc.next();
+            int choice = sc.nextInt();
 
-            if (Objects.equals(input, "1")) {
-                studentState = "Green";
-                break;
-            } else if (Objects.equals(input, "2")) {
-                studentState = "Red";
-                break;
-            } else if (Objects.equals(input, "3")) {
-                studentState = "Yellow";
+            if (choice >= 1 && choice <= 3) {
+                studentState = states[choice - 1];
                 break;
             } else {
                 System.out.println("1부터 3 사이의 숫자를 입력해주세요.");
@@ -463,20 +501,29 @@ public class CampManagementApplication {
 
         // 기능 구현
         boolean found = false;
-
-        System.out.println();
         for (Student student : studentStore) {
             if (Objects.equals(student.getStudentState(), studentState)) {
                 found = true;
-                printStudentState(student);
+                break;
             }
         }
 
-        if (!found) {
-            System.out.println("해당 상태의 수강생을 찾을 수 없습니다.");
+        if (found) {
+            System.out.println();
+
+            // 조회 형식은 자유입니다.
+            printStudentStateBar();
+            for (Student student : studentStore) {
+                if (Objects.equals(student.getStudentState(), studentState)) {
+                    printStudentState(student);
+                }
+            }
+
+            System.out.println("\n상태별 수강생 목록 조회 성공!");
+        } else {
+            System.out.println("\n해당 상태의 수강생을 찾을 수 없습니다.");
         }
-        // 조회 형식은 자유입니다.
-        System.out.println("\n상태별 수강생 목록 조회 성공!");
+
     }
 
     // 수강생 삭제
@@ -486,22 +533,14 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
         // 해당 수강생의 점수 기록도 함께 삭제됩니다.
-        boolean found = false;
-
-        for (int i = 0; i < studentStore.size(); i++) {
-            Student student = studentStore.get(i);
-            if (Objects.equals(student.getStudentId(), studentId)) {
-                studentStore.remove(i);
-                found = true;
-                break;
-            }
-        }
+        boolean found = studentStore.removeIf(student -> Objects.equals(student.getStudentId(), studentId));
 
         if (found) {
             System.out.println("\n수강생 삭제 성공!");
         } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
+
     }
 
     // ID, NAME 출력
