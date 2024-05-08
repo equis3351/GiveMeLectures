@@ -799,7 +799,8 @@ public class CampManagementApplication {
                 }
             }
             if (flag == true) {
-                System.out.println("없는 과목이거나 회차가 존재하지 않습니다.....");
+                System.out.println("없는 과목이거나 회차가 존재하지 않습니다.\n다시 입력하시오...");
+                continue;
             }
         }   // 해당 과목에 대한 회차가 있으면 넘어가도록 수정하기
 
