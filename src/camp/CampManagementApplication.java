@@ -724,8 +724,13 @@ public class CampManagementApplication {
 
 
     private static String getSubjectId() {
-        System.out.print("\n등록할 시험 과목의 번호를 입력하시오...");
-        return sc.next();
+        while (true) {
+            System.out.print("\n등록할 시험 과목의 번호를 입력하시오...");
+            String sub = INDEX_TYPE_SUBJECT+sc.next();
+            if(subjectStore.stream().filter( s -> Objects.equals(s.getSubjectId(),sub)).count()>0){
+            return sub;}
+            System.out.println("\n해당 과목이 존재하지 않습니다...");
+        }
     }
 
     private static Integer getTestNumber() {
@@ -775,7 +780,7 @@ public class CampManagementApplication {
         boolean tf = true;
         if ( !scoreStore.isEmpty()){
             for (Score s : scoreStore){
-                if (s.getSubjectId().equals(studentId) && s.getSubjectId().equals(subjectId) && s.getTestNum() == testNum){
+                if (s.getStudentId().equals(studentId) && s.getSubjectId().equals(subjectId) && s.getTestNum() == testNum){
                     tf = false;
                     break;
                 }
