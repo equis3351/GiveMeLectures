@@ -44,6 +44,7 @@ public class CampManagementApplication {
             displayMainView();
         } catch (Exception e) {
             System.out.println("\n오류 발생!\n프로그램을 종료합니다.");
+            System.out.println(e);
         }
     }
 
@@ -123,40 +124,43 @@ public class CampManagementApplication {
                     new ArrayList<>(Arrays.asList(subjectStore.get(1), subjectStore.get(2), subjectStore.get(3), subjectStore.get(6), subjectStore.get(8)))
             )
         ));
-        scoreStore = List.of(
-            new Score(
-                sequence(INDEX_TYPE_SCORE),
-                "ST1",
-                "SU1",
-                1,
-                95,
-            SUBJECT_TYPE_MANDATORY
-            ),
-            new Score(
-                sequence(INDEX_TYPE_SCORE),
-                "ST2",
-                "SU1",
-                1,
-                65,
-                SUBJECT_TYPE_MANDATORY
-            ),
-            new Score(
-                sequence(INDEX_TYPE_SCORE),
-                "ST4",
-                "SU1",
-                1,
-                45,
-                SUBJECT_TYPE_MANDATORY
-            ),
-            new Score(
-                sequence(INDEX_TYPE_SCORE),
-                "ST5",
-                "SU1",
-                1,
-                45,
-                SUBJECT_TYPE_MANDATORY
-            )
-        );
+        scoreStore = new ArrayList<>(List.of(
+                new Score(
+
+                        sequence(INDEX_TYPE_SCORE),
+                        "ST1",
+                        "SU1",
+                        1,
+                        95,
+                        SUBJECT_TYPE_MANDATORY),
+
+
+                new Score(
+                        sequence(INDEX_TYPE_SCORE),
+                        "ST2",
+                        "SU1",
+                        1,
+                        65,
+                        SUBJECT_TYPE_MANDATORY
+                ),
+                new Score(
+                        sequence(INDEX_TYPE_SCORE),
+                        "ST4",
+                        "SU1",
+                        1,
+                        45,
+                        SUBJECT_TYPE_MANDATORY
+                ),
+                new Score(
+                        sequence(INDEX_TYPE_SCORE),
+                        "ST5",
+                        "SU1",
+                        1,
+                        45,
+                        SUBJECT_TYPE_MANDATORY
+                )
+
+        ));
     }
 
     // index 자동 증가
@@ -697,19 +701,29 @@ public class CampManagementApplication {
             }
         }
         Integer score = getTestScore();
+
+        printScoreStateBar();
+        printScoreState(studentId, subjectId, testNum, score);
         System.out.println("시험 점수를 등록합니다...");
+
+
         scoreStore.add(new Score(sequence(INDEX_TYPE_SCORE), studentId,subjectId, testNum, score, checkSubjectType(subjectId)));
-//        for (Subject s : subjectStore) {
-//            System.out.println(s.getSubjectId());
-//            System.out.println(s.getSubjectType());
-//        }
-//        for (Score s : scoreStore) {
-//            System.out.println(s.getScoreId());
-//            System.out.println(s.getGrade());
-//            System.out.println(s.getSubjectType());
-//        }
+
+
+
+
         System.out.println("\n점수 등록 성공!");
     }
+
+    private static void printScoreStateBar(){
+        System.out.printf("%-8s | %-9s | %-9s | %s%n ", "student", "subject","test", "score");
+        System.out.println("------------------------------");
+    }
+
+    private static void printScoreState(String A, String B, Integer C, Integer D){
+        System.out.printf("%-8s | %-9s | %-9d | %d%n",A,B,C,D);
+    }
+
 
     private static String getSubjectId() {
         System.out.print("\n등록할 시험 과목의 번호를 입력하시오...");
@@ -721,7 +735,7 @@ public class CampManagementApplication {
         while(true){
             try{
                 System.out.print("\n시험 회차를 입력하시오...");
-                N = Integer.parseInt(sc.next()); //수정
+                N = Integer.parseInt(sc.next());
                 if( N > 10 || N < 1){
                     throw new Exception();
                 }
@@ -738,13 +752,13 @@ public class CampManagementApplication {
         while(true){
             try{
                 System.out.print("\n시험 점수를 입력하시오...");
-                N = Integer.parseInt(sc.next()); //수정
+                N = Integer.parseInt(sc.next());
                 if( N > 100 || N < 0){
                     throw new Exception();
                 }
                 break;
             } catch(Exception e){
-                System.out.println("점수에 100 초과 및 음수가 저장될 수 없습니다"); // 수정
+                System.out.println("점수에 100 초과 및 음수가 저장될 수 없습니다");
             }
         }
         return  N;
