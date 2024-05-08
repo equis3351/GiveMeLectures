@@ -627,19 +627,33 @@ public class CampManagementApplication {
             }
         }
         Integer score = getTestScore();
+
+        printScoreStateBar();
+        printScoreState(studentId, subjectId, score);
         System.out.println("시험 점수를 등록합니다...");
         scoreStore.add(new Score(sequence(INDEX_TYPE_SCORE), studentId,subjectId, testNum, score, checkSubjectType(subjectId)));
-//        for (Subject s : subjectStore) {
-//            System.out.println(s.getSubjectId());
-//            System.out.println(s.getSubjectType());
-//        }
-//        for (Score s : scoreStore) {
-//            System.out.println(s.getScoreId());
-//            System.out.println(s.getGrade());
-//            System.out.println(s.getSubjectType());
-//        }
+
+
+
+
         System.out.println("\n점수 등록 성공!");
     }
+
+    private static void printScoreStateBar(){
+        System.out.printf("%-8s | %-9s | %s%n", "수강생", "과목", "점수");
+        System.out.println("------------------------------");
+    }
+
+    private static void printScoreState(String A, String B, Integer C){
+        int gap = 8;
+        if (B.length() == 2) {
+            gap = 9;
+        } else if (B.length() == 4) {
+            gap = 7;
+        }
+        System.out.printf("%-8s | %-" + gap + "s | %d%n",A,B,C);
+    }
+
 
     private static String getSubjectId() {
         System.out.print("\n등록할 시험 과목의 번호를 입력하시오...");
@@ -651,7 +665,7 @@ public class CampManagementApplication {
         while(true){
             try{
                 System.out.print("\n시험 회차를 입력하시오...");
-                N = Integer.parseInt(sc.next()); //수정
+                N = Integer.parseInt(sc.next());
                 if( N > 10 || N < 1){
                     throw new Exception();
                 }
@@ -668,13 +682,13 @@ public class CampManagementApplication {
         while(true){
             try{
                 System.out.print("\n시험 점수를 입력하시오...");
-                N = Integer.parseInt(sc.next()); //수정
+                N = Integer.parseInt(sc.next());
                 if( N > 100 || N < 0){
                     throw new Exception();
                 }
                 break;
             } catch(Exception e){
-                System.out.println("점수에 100 초과 및 음수가 저장될 수 없습니다"); // 수정
+                System.out.println("점수에 100 초과 및 음수가 저장될 수 없습니다");
             }
         }
         return  N;
