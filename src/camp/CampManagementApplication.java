@@ -4,11 +4,7 @@ import camp.model.Score;
 import camp.model.Student;
 import camp.model.Subject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Notification
@@ -51,33 +47,6 @@ public class CampManagementApplication {
 
     // 초기 데이터 생성
     private static void setInitData() {
-        studentStore = new ArrayList<>(List.of(
-                new Student(
-                        sequence(INDEX_TYPE_STUDENT),
-                        "김우진",
-                        new ArrayList<>(Arrays.asList("SU1", "SU2", "SU3", "SU6", "SU7"))
-                ),
-                new Student(
-                        sequence(INDEX_TYPE_STUDENT),
-                        "남현",
-                        new ArrayList<>(Arrays.asList("SU1", "SU2", "SU4", "SU8", "SU9"))
-                ),
-                new Student(
-                        sequence(INDEX_TYPE_STUDENT),
-                        "이민정",
-                        new ArrayList<>(Arrays.asList("SU1", "SU4", "SU5", "SU6", "SU7", "SU9"))
-                ),
-                new Student(
-                        sequence(INDEX_TYPE_STUDENT),
-                        "이제범",
-                        new ArrayList<>(Arrays.asList("SU1", "SU2", "SU3", "SU4", "SU5", "SU7", "SU8"))
-                ),
-                new Student(
-                        sequence(INDEX_TYPE_STUDENT),
-                        "조성훈",
-                        new ArrayList<>(Arrays.asList("SU2", "SU3", "SU4", "SU7", "SU9"))
-                )
-        ));
         subjectStore = List.of(
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
@@ -125,7 +94,67 @@ public class CampManagementApplication {
                         SUBJECT_TYPE_CHOICE
                 )
         );
-        scoreStore = new ArrayList<>();
+        studentStore = new ArrayList<>(List.of(
+                new Student(
+                        sequence(INDEX_TYPE_STUDENT),
+                        "김우진",
+                        new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(1), subjectStore.get(2), subjectStore.get(5), subjectStore.get(6)))
+                ),
+                new Student(
+                        sequence(INDEX_TYPE_STUDENT),
+                        "남현",
+                        new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(1), subjectStore.get(3), subjectStore.get(7), subjectStore.get(8)))
+                ),
+                new Student(
+                        sequence(INDEX_TYPE_STUDENT),
+                        "이민정",
+                        new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(3), subjectStore.get(4), subjectStore.get(5), subjectStore.get(6), subjectStore.get(8)))
+                ),
+                new Student(
+                        sequence(INDEX_TYPE_STUDENT),
+                        "이제범",
+                        new ArrayList<>(Arrays.asList(subjectStore.get(0), subjectStore.get(1), subjectStore.get(2), subjectStore.get(3), subjectStore.get(4), subjectStore.get(6), subjectStore.get(7)))
+                ),
+                new Student(
+                        sequence(INDEX_TYPE_STUDENT),
+                        "조성훈",
+                        new ArrayList<>(Arrays.asList(subjectStore.get(1), subjectStore.get(2), subjectStore.get(3), subjectStore.get(6), subjectStore.get(8)))
+                )
+        ));
+        scoreStore = List.of(
+                new Score(
+                    sequence(INDEX_TYPE_SCORE),
+                    "ST1",
+                    "SU1",
+                    1,
+                    95,
+                SUBJECT_TYPE_MANDATORY
+                ),
+                new Score(
+                        sequence(INDEX_TYPE_SCORE),
+                        "ST2",
+                        "SU1",
+                        1,
+                        65,
+                        SUBJECT_TYPE_MANDATORY
+                ),
+                new Score(
+                        sequence(INDEX_TYPE_SCORE),
+                        "ST4",
+                        "SU1",
+                        1,
+                        45,
+                        SUBJECT_TYPE_MANDATORY
+                ),
+            new Score(
+                sequence(INDEX_TYPE_SCORE),
+                "ST5",
+                "SU1",
+                1,
+                45,
+                SUBJECT_TYPE_MANDATORY
+            )
+        );
     }
 
     // index 자동 증가
@@ -212,13 +241,17 @@ public class CampManagementApplication {
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
 
-        ArrayList<String> studentSubjects = new ArrayList<>();
+        List<Subject> studentSubjects = new ArrayList<>();
 
         // 필수 과목 선택
-        int mandatorySubjectCount = 0;
+        int mandatorySubjectCount = 0; // 선택한 필수 과목 수 초기화
+
+        // 최대 5개의 필수 과목을 선택할 때까지 반복
         while (mandatorySubjectCount < 5) {
             System.out.println("==================================");
             System.out.println("3개 이상의 필수 과목을 선택해주세요.\n");
+
+            // 선택 가능한 필수 과목 목록 출력
             for (int i = 0; i < subjectStore.size(); i++) {
                 Subject subject = subjectStore.get(i);
                 if (Objects.equals(subject.getSubjectType(), SUBJECT_TYPE_MANDATORY)) {
@@ -226,31 +259,49 @@ public class CampManagementApplication {
                 }
             }
             System.out.println("6. 필수 과목 선택 종료");
+
+            // 사용자로부터 과목 선택 입력 받기
             String subject = sc.next();
-            if (studentSubjects.contains(subject)) {
+
+            // 선택한 과목 찾기
+            Subject foundSubject = findSubjectById(subject);
+
+            // 이미 선택된 과목인지 확인하고 메시지 출력
+            if (studentSubjects.contains(foundSubject)) {
                 System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.\n");
-            } else if (subject.equals("6") && mandatorySubjectCount >= 3){
+            }
+            // 선택 종료 조건 확인
+            else if (subject.equals("6") && mandatorySubjectCount >= 3){
                 break;
-            } else if (subject.matches("[1-5]")) {
-                studentSubjects.add("SU" + subject);
+            }
+            // 유효한 선택인지 확인하고 선택한 과목 목록에 추가
+            else if (subject.matches("[1-5]")) {
+                studentSubjects.add(foundSubject);
                 mandatorySubjectCount++;
-            } else {
+            }
+            // 잘못된 입력 처리
+            else {
                 System.out.println("1부터 5 사이의 숫자를 입력해주세요.\n");
             }
 
-            System.out.print("선택한 과목 : ");
-            for (String selected : studentSubjects) {
-                System.out.print(selected + " ");
+            // 선택한 과목 목록 출력
+            System.out.print("\n선택한 과목\n");
+            for (Subject selected : studentSubjects) {
+                System.out.println(selected);
             }
             System.out.println();
 
         }
 
         // 선택 과목 선택
-        int choiceSubjectCount = 0;
+        int choiceSubjectCount = 0; // 선택한 과목 수 초기화
+
+        // 최대 4개의 선택 과목을 선택할 때까지 반복
         while (choiceSubjectCount < 4) {
             System.out.println("==================================");
             System.out.println("2개 이상의 선택 과목을 선택해주세요.\n");
+
+            // 선택 가능한 과목 목록 출력
             for (int i = 0; i < subjectStore.size(); i++) {
                 Subject subject = subjectStore.get(i);
                 if (Objects.equals(subject.getSubjectType(), SUBJECT_TYPE_CHOICE)) {
@@ -258,33 +309,59 @@ public class CampManagementApplication {
                 }
             }
             System.out.println("10. 선택 과목 선택 종료");
+
+            // 사용자로부터 과목 선택 입력 받기
             String subject = sc.next();
-            if (studentSubjects.contains(subject)) {
+
+            // 선택한 과목 찾기
+            Subject foundSubject = findSubjectById(subject);
+
+            // 이미 선택된 과목인지 확인하고 메시지 출력
+            if (studentSubjects.contains(foundSubject)) {
                 System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.\n");
-            } else if (subject.equals("10") && choiceSubjectCount >= 2) {
+            }
+            // 선택 종료 조건 확인
+            else if (subject.equals("10") && choiceSubjectCount >= 2) {
                 break;
-            } else if (subject.matches("[6-9]")) {
-                studentSubjects.add("SU" + subject);
+            }
+            // 유효한 선택인지 확인하고 선택한 과목 목록에 추가
+            else if (subject.matches("[6-9]")) {
+                studentSubjects.add(foundSubject);
                 choiceSubjectCount++;
-            } else {
+            }
+            // 잘못된 입력 처리
+            else {
                 System.out.println("6부터 9 사이의 숫자를 입력해주세요.\n");
             }
 
-            System.out.print("선택한 과목 : ");
-            for (String selected : studentSubjects) {
-                System.out.print(selected + " ");
+            // 선택한 과목 목록 출력
+            System.out.print("\n선택한 과목\n");
+            for (Subject selected : studentSubjects) {
+                System.out.println(selected);
             }
             System.out.println();
 
         }
 
-        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, studentSubjects); // 수강생 인스턴스 생성 예시 코드
+        // 수강생 인스턴스 생성 코드
+        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, studentSubjects);
 
         System.out.println("\n수강생 정보");
         printStudentNoStateBar();
         printStudentNoState(student);
+
         studentStore.add(student);
         System.out.println("\n수강생 등록 성공!");
+    }
+
+    // 과목 ID로 과목을 찾는 메서드
+    private static Subject findSubjectById(String id) {
+        for (Subject subject : subjectStore) {
+            if (subject.getSubjectId().equals("SU" + id)) {
+                return subject;
+            }
+        }
+        return null;
     }
 
     // 수강생 목록 조회
@@ -305,8 +382,8 @@ public class CampManagementApplication {
     // 수강생 상태 관리
     private static void updateStudentState() {
         System.out.println("==================================");
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생 상태를 관리합니다...");
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
         boolean found = false;
 
@@ -323,6 +400,7 @@ public class CampManagementApplication {
                     System.out.println("2. Red");
                     System.out.println("3. Yellow");
                     String newState= sc.next();
+
                     if (Objects.equals(newState, "1")) {
                         student.setStudentState("Green");
 
@@ -351,49 +429,52 @@ public class CampManagementApplication {
             }
         }
 
-        if (!found) {
+        if (found) {
+            System.out.println("\n수강생 상태 관리 성공!");
+        } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
 
-        System.out.println("\n수강생 상태 관리 성공!");
     }
 
     // 수강생 정보 조회
     private static void inquireStudentInformation() {
         System.out.println("==================================");
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생 정보를 조회합니다...");
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
         boolean found = false;
 
         for (Student student : studentStore) {
             if (Objects.equals(student.getStudentId(), studentId)) {
-                found = true;
                 System.out.println("\n수강생 정보");
+                // 조회 형식은 자유입니다.
                 printStudentAllBar();
                 printStudentAll(student);
+
+                found = true;
             }
         }
 
-        if (!found) {
+        if (found) {
+            System.out.println("\n수강생 정보 조회 성공!");
+        } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
 
-        // 조회 형식은 자유입니다.
-        System.out.println("\n수강생 정보 조회 성공!");
     }
 
     // 수강생 정보 수정
     private static void updateStudent() {
         System.out.println("==================================");
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("수강생 정보를 수정합니다...");
+        String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
+        // 이름 또는 상태를 입력받아 수정하시면 됩니다.
         boolean found = false;
 
         for (Student student : studentStore) {
             if (Objects.equals(student.getStudentId(), studentId)) {
-                found = true;
                 System.out.println("\n수강생 정보");
                 printStudentNameBar();
                 printStudentName(student);
@@ -405,14 +486,17 @@ public class CampManagementApplication {
                 System.out.println("\n수강생 정보");
                 printStudentNameBar();
                 printStudentName(student);
+
+                found = true;
             }
         }
 
-        if (!found) {
+        if (found) {
+            System.out.println("\n수강생 정보 수정 성공!");
+        } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
-        // 이름 또는 상태를 입력받아 수정하시면 됩니다.
-        System.out.println("\n수강생 정보 수정 성공!");
+
     }
 
     // 상태별 수강생 목록 조회
@@ -423,20 +507,15 @@ public class CampManagementApplication {
         System.out.println("2. Red");
         System.out.println("3. Yellow");
 
-        String studentState = "";
+        String studentState;
+        String[] states = {"Green", "Red", "Yellow"};
 
         while (true) {
             System.out.print("\n조회할 수강생의 상태를 입력하세요...");
-            String input = sc.next();
+            int choice = sc.nextInt();
 
-            if (Objects.equals(input, "1")) {
-                studentState = "Green";
-                break;
-            } else if (Objects.equals(input, "2")) {
-                studentState = "Red";
-                break;
-            } else if (Objects.equals(input, "3")) {
-                studentState = "Yellow";
+            if (choice >= 1 && choice <= 3) {
+                studentState = states[choice - 1];
                 break;
             } else {
                 System.out.println("1부터 3 사이의 숫자를 입력해주세요.");
@@ -445,20 +524,29 @@ public class CampManagementApplication {
 
         // 기능 구현
         boolean found = false;
-
-        System.out.println();
         for (Student student : studentStore) {
             if (Objects.equals(student.getStudentState(), studentState)) {
                 found = true;
-                printStudentState(student);
+                break;
             }
         }
 
-        if (!found) {
-            System.out.println("해당 상태의 수강생을 찾을 수 없습니다.");
+        if (found) {
+            System.out.println();
+
+            // 조회 형식은 자유입니다.
+            printStudentStateBar();
+            for (Student student : studentStore) {
+                if (Objects.equals(student.getStudentState(), studentState)) {
+                    printStudentState(student);
+                }
+            }
+
+            System.out.println("\n상태별 수강생 목록 조회 성공!");
+        } else {
+            System.out.println("\n해당 상태의 수강생을 찾을 수 없습니다.");
         }
-        // 조회 형식은 자유입니다.
-        System.out.println("\n상태별 수강생 목록 조회 성공!");
+
     }
 
     // 수강생 삭제
@@ -468,22 +556,14 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
         // 해당 수강생의 점수 기록도 함께 삭제됩니다.
-        boolean found = false;
-
-        for (int i = 0; i < studentStore.size(); i++) {
-            Student student = studentStore.get(i);
-            if (Objects.equals(student.getStudentId(), studentId)) {
-                studentStore.remove(i);
-                found = true;
-                break;
-            }
-        }
+        boolean found = studentStore.removeIf(student -> Objects.equals(student.getStudentId(), studentId));
 
         if (found) {
             System.out.println("\n수강생 삭제 성공!");
         } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
         }
+
     }
 
     // ID, NAME 출력
@@ -528,7 +608,7 @@ public class CampManagementApplication {
         System.out.printf("%-8s | %-" + gap + "s | %s%n",
                 student.getStudentId(),
                 student.getStudentName(),
-                student.getStudentSubject());
+                formatSubjects(student.getStudentSubject()));
     }
 
     private static void printStudentNoStateBar() {
@@ -548,12 +628,21 @@ public class CampManagementApplication {
                 student.getStudentId(),
                 student.getStudentName(),
                 student.getStudentState(),
-                student.getStudentSubject());
+                formatSubjects(student.getStudentSubject()));
     }
 
     private static void printStudentAllBar() {
         System.out.printf("%-8s | %-9s | %-9s | %s%n", "ID", "이름", "상태", "수강 과목");
         System.out.println("----------------------------------------------------");
+    }
+
+    // 학생이 수강한 과목 목록을 포맷하는 메서드
+    private static String formatSubjects(List<Subject> subjects) {
+        List<String> subjectNames = new ArrayList<>();
+        for (Subject subject : subjects) {
+            subjectNames.add(subject.getSubjectName());
+        }
+        return String.join(", ", subjectNames);
     }
 
     // 2. 점수 관리
@@ -608,15 +697,15 @@ public class CampManagementApplication {
         Integer score = getTestScore();
         System.out.println("시험 점수를 등록합니다...");
         scoreStore.add(new Score(sequence(INDEX_TYPE_SCORE), studentId,subjectId, testNum, score, checkSubjectType(subjectId)));
-        for (Subject s : subjectStore) {
-            System.out.println(s.getSubjectId());
-            System.out.println(s.getSubjectType());
-        }
-        for (Score s : scoreStore) {
-            System.out.println(s.getScoreId());
-            System.out.println(s.getGrade());
-            System.out.println(s.getSubjectType());
-        }
+//        for (Subject s : subjectStore) {
+//            System.out.println(s.getSubjectId());
+//            System.out.println(s.getSubjectType());
+//        }
+//        for (Score s : scoreStore) {
+//            System.out.println(s.getScoreId());
+//            System.out.println(s.getGrade());
+//            System.out.println(s.getSubjectType());
+//        }
         System.out.println("\n점수 등록 성공!");
     }
 
@@ -630,7 +719,7 @@ public class CampManagementApplication {
         while(true){
             try{
                 System.out.print("\n시험 회차를 입력하시오...");
-                N = sc.nextInt();
+                N = Integer.parseInt(sc.next()); //수정
                 if( N > 10 || N < 1){
                     throw new Exception();
                 }
@@ -647,13 +736,13 @@ public class CampManagementApplication {
         while(true){
             try{
                 System.out.print("\n시험 점수를 입력하시오...");
-                N = sc.nextInt();
+                N = Integer.parseInt(sc.next()); //수정
                 if( N > 100 || N < 0){
                     throw new Exception();
                 }
                 break;
             } catch(Exception e){
-                System.out.println("회차에 10 초과 및 1 미만의 수가 저장될 수 없습니다");
+                System.out.println("점수에 100 초과 및 음수가 저장될 수 없습니다"); // 수정
             }
         }
         return  N;
@@ -710,8 +799,24 @@ public class CampManagementApplication {
                 System.out.println("잘못 입력하였습니다. 다시 입력하시오...");
             }
         }
+
+        //subjectName을 SU1, Su2... 등등 바꿔주기
+        ChangeSubjectName changeSubjectName = new ChangeSubjectName();
+        subjectName = changeSubjectName.changeSubjectName(subjectName);
+
+        for (Score scorestore : scoreStore) {
+            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectName)) { // 검증: 학생id, 과목이름
+                System.out.println("작성된 회차: " + scorestore.getTestNum());
+            }
+        }
         System.out.print("\n수정할 회차를 입력하시오...");
         testNum = sc.nextInt();
+
+        for (Score scorestore : scoreStore) {
+            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectName) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차  // subject == SU1
+                System.out.println("기존 시험 점수: " + scorestore.getScore());
+            }
+        }
         System.out.print("\n수정할 시험 점수를 입력하시오...");
         score = sc.nextInt();
         System.out.println("\n시험 점수를 수정합니다...");

@@ -1,15 +1,14 @@
 package camp.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public class Student {
     private String studentId;
     private String studentName;
     private String studentState;
-    private ArrayList<String> studentSubject;
+    private List<Subject> studentSubject;
 
-    public Student(String seq, String studentName, ArrayList<String> studentSubject) {
+    public Student(String seq, String studentName, List<Subject> studentSubject) {
         this.studentId = seq;
         this.studentName = studentName;
         this.studentState = "Green";
@@ -29,8 +28,8 @@ public class Student {
         return studentState;
     }
 
-    public String getStudentSubject() {
-        return Arrays.toString(studentSubject.toArray());
+    public List<Subject> getStudentSubject() {
+        return studentSubject;
     }
 
     // Setter

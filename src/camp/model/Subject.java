@@ -24,4 +24,8 @@ public class Subject {
         return subjectType;
     }
 
+    @Override
+    public String toString() {
+        return subjectName; // 과목의 이름을 반환하도록 수정
+    }
 }
