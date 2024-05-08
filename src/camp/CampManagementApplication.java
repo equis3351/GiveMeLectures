@@ -124,23 +124,15 @@ public class CampManagementApplication {
         ));
         scoreStore = new ArrayList<>(List.of(
                 new Score(
-<<<<<<< HEAD
+
                         sequence(INDEX_TYPE_SCORE),
                         "ST1",
                         "SU1",
                         1,
                         95,
-                        SUBJECT_TYPE_MANDATORY
-                )
-        )
-=======
-                    sequence(INDEX_TYPE_SCORE),
-                    "ST1",
-                    "SU1",
-                    1,
-                    95,
-                SUBJECT_TYPE_MANDATORY
-                ),
+                        SUBJECT_TYPE_MANDATORY),
+
+
                 new Score(
                         sequence(INDEX_TYPE_SCORE),
                         "ST2",
@@ -157,16 +149,16 @@ public class CampManagementApplication {
                         45,
                         SUBJECT_TYPE_MANDATORY
                 ),
-            new Score(
-                sequence(INDEX_TYPE_SCORE),
-                "ST5",
-                "SU1",
-                1,
-                45,
-                SUBJECT_TYPE_MANDATORY
-            )
->>>>>>> main
-        );
+                new Score(
+                        sequence(INDEX_TYPE_SCORE),
+                        "ST5",
+                        "SU1",
+                        1,
+                        45,
+                        SUBJECT_TYPE_MANDATORY
+                )
+
+        ));
     }
 
     // index 자동 증가
