@@ -42,6 +42,7 @@ public class CampManagementApplication {
             displayMainView();
         } catch (Exception e) {
             System.out.println("\n오류 발생!\n프로그램을 종료합니다.");
+            System.out.println(e);
         }
     }
 
@@ -121,16 +122,16 @@ public class CampManagementApplication {
                         new ArrayList<>(Arrays.asList(subjectStore.get(1), subjectStore.get(2), subjectStore.get(3), subjectStore.get(6), subjectStore.get(8)))
                 )
         ));
-        scoreStore = List.of(
+        scoreStore = new ArrayList<>(List.of(
                 new Score(
-                    sequence(INDEX_TYPE_SCORE),
-                    "ST1",
-                    "SU1",
-                    1,
-                    95,
-                    SUBJECT_TYPE_MANDATORY
-            )
-
+                        sequence(INDEX_TYPE_SCORE),
+                        "ST1",
+                        "SU1",
+                        1,
+                        95,
+                        SUBJECT_TYPE_MANDATORY
+                )
+        )
         );
     }
 
@@ -676,6 +677,8 @@ public class CampManagementApplication {
         printScoreStateBar();
         printScoreState(studentId, subjectId, testNum, score);
         System.out.println("시험 점수를 등록합니다...");
+
+
         scoreStore.add(new Score(sequence(INDEX_TYPE_SCORE), studentId,subjectId, testNum, score, checkSubjectType(subjectId)));
 
 
