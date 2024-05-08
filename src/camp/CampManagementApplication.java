@@ -44,7 +44,6 @@ public class CampManagementApplication {
             displayMainView();
         } catch (Exception e) {
             System.out.println("\n오류 발생!\n프로그램을 종료합니다.");
-            System.out.println(e);
         }
     }
 
@@ -686,14 +685,14 @@ public class CampManagementApplication {
     private static void createScore() {
         String studentId;
         String subjectId;
-        Integer testNum;
+        Integer round;
         // 기능 구현
         while(true) {
             try {
                 studentId = getStudentId(); // 관리할 수강생 고유 번호
                 subjectId = getSubjectId();
-                testNum = getTestNumber();
-                if(!checkSavedScore(studentId, subjectId, testNum)){
+                round = getRound();
+                if(!checkSavedScore(studentId, subjectId, round)){
                     throw new Exception();
                 }
                 break;
@@ -704,14 +703,10 @@ public class CampManagementApplication {
         Integer score = getTestScore();
 
         printScoreStateBar();
-        printScoreState(studentId, subjectId, testNum, score);
+        printScoreState(studentId, subjectId, round, score);
         System.out.println("시험 점수를 등록합니다...");
 
-
-        scoreStore.add(new Score(sequence(INDEX_TYPE_SCORE), studentId,subjectId, testNum, score, checkSubjectType(subjectId)));
-
-
-
+        scoreStore.add(new Score(sequence(INDEX_TYPE_SCORE), studentId,subjectId, round, score, checkSubjectType(subjectId)));
 
         System.out.println("\n점수 등록 성공!");
     }
@@ -725,7 +720,6 @@ public class CampManagementApplication {
         System.out.printf("%-8s | %-9s | %-9d | %d%n",A,B,C,D);
     }
 
-
     private static String getSubjectId() {
         while (true) {
             System.out.print("\n등록할 시험 과목의 번호를 입력하시오...");
@@ -736,7 +730,7 @@ public class CampManagementApplication {
         }
     }
 
-    private static Integer getTestNumber() {
+    private static Integer getRound() {
         Integer N;
         while(true){
             try{
@@ -783,7 +777,7 @@ public class CampManagementApplication {
         boolean tf = true;
         if ( !scoreStore.isEmpty()){
             for (Score s : scoreStore){
-                if (s.getStudentId().equals(studentId) && s.getSubjectId().equals(subjectId) && s.getTestNum() == testNum){
+                if (s.getStudentId().equals(studentId) && s.getSubjectId().equals(subjectId) && s.getRound() == testNum){
                     tf = false;
                     break;
                 }
@@ -813,7 +807,7 @@ public class CampManagementApplication {
             subjectId = sc.nextLine();    // 이름으로 받아야함. --> 번호로 받도록 수정
             subjectId = "SU"+subjectId;     //subjectId(1, 2...)을 SU1, Su2... 등등 바꿔주기
             for(Score scorestore: scoreStore) {
-                if(scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum() != NULL){
+                if(scorestore.getSubjectId().equals(subjectId) && scorestore.getRound() != NULL){
                     flag = false;
                     break;
                 }
@@ -828,13 +822,13 @@ public class CampManagementApplication {
         while (flag) {
             for (Score scorestore : scoreStore) {
                 if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId)) { // 검증: 학생id, 과목이름
-                    System.out.println("작성된 회차: " + scorestore.getTestNum());
+                    System.out.println("작성된 회차: " + scorestore.getRound());
                 }
             }
             System.out.print("\n수정할 회차를 입력하시오...");
             testNum = sc.nextInt();
             for (Score scorestore : scoreStore) {
-                if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum() == testNum ) { // 검증: 학생id, 과목이름, 회차
+                if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getRound() == testNum ) { // 검증: 학생id, 과목이름, 회차
                     flag=false;
                     break;
                 }
@@ -843,7 +837,7 @@ public class CampManagementApplication {
         }
 
         for (Score scorestore : scoreStore) {
-            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차  // subject == SU1
+            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getRound()==testNum) { // 검증: 학생id, 과목이름, 회차  // subject == SU1
                 System.out.println("기존 시험 점수: " + scorestore.getScore());
             }
         }
@@ -858,8 +852,8 @@ public class CampManagementApplication {
         System.out.println("\n시험 점수를 수정합니다...");
         // 기능 구현
         for (Score scorestore : scoreStore) {
-             if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차
-                scorestore.setscore(score);
+             if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getRound()==testNum) { // 검증: 학생id, 과목이름, 회차
+                scorestore.setScore(score);
             }
         }
         System.out.println("\n점수 수정 성공!");
@@ -902,11 +896,6 @@ public class CampManagementApplication {
     private static String getStudentId() {
         System.out.print("관리할 수강생의 번호를 입력하시오...");
         return "ST" + sc.next();
-    }
-
-    private static String getStudentName() {
-        System.out.print("관리할 수강생의 이름를 입력하시오...");
-        return sc.next();
     }
 
     private static String getStudentState() {
