@@ -5,17 +5,17 @@ public class Score {
     private String studentId;
 
     private String subjectId;
-    private int testNum;    //회차
+    private int round;    //회차
     private int score;  //점수
 
     private String subjectType;
     private char grade; //등급
     
-    public Score(String seq, String studentId, String subjectId, int testNum, int score, String subjectType){
+    public Score(String seq, String studentId, String subjectId, int round, int score, String subjectType){
         this.scoreId = seq;
         this.studentId = studentId;
         this.subjectId = subjectId;
-        this.testNum = testNum;
+        this.round = round;
         this.score = score;
         this.subjectType = subjectType;
         this.grade = gradeCheck(score, subjectId);
@@ -34,8 +34,8 @@ public class Score {
         return subjectId;
     }
 
-    public int getTestNum() {
-        return testNum;
+    public int getRound() {
+        return round;
     }
 
     public int getScore() {
@@ -88,7 +88,7 @@ public class Score {
     }
 
     // setter
-    public void setscore(int score) {
+    public void setScore(int score) {
         this.score = score;
     }
 }
