@@ -6,6 +6,8 @@ import camp.model.Subject;
 
 import java.util.*;
 
+import static java.sql.Types.NULL;
+
 /**
  * Notification
  * Java, 객체지향이 아직 익숙하지 않은 분들은 위한 소스코드 틀입니다.
@@ -772,8 +774,8 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
-        String subjectId="", subjectType, scoreId;
-        int textNum, score, testNum;
+        String subjectId="";
+        int score, testNum=0;
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (수정할 과목 및 회차, 점수)
@@ -790,31 +792,34 @@ public class CampManagementApplication {
         while(flag) {
             subjectId = sc.nextLine();    // 이름으로 받아야함. --> 번호로 받도록 수정
             subjectId = "SU"+subjectId;     //subjectId(1, 2...)을 SU1, Su2... 등등 바꿔주기
-            for(Subject subject: subjectStore) {
-                if(subject.getSubjectId().equals(subjectId)){
+            for(Score scorestore: scoreStore) {
+                if(scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum() != NULL){
                     flag = false;
                     break;
                 }
             }
             if (flag == true) {
-                System.out.println("없는 과목입니다....");
+                System.out.println("없는 과목이거나 회차가 존재하지 않습니다.....");
             }
         }   // 해당 과목에 대한 회차가 있으면 넘어가도록 수정하기
 
-        for (Score scorestore : scoreStore) {
-            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId)) { // 검증: 학생id, 과목이름
-                System.out.println("작성된 회차: " + scorestore.getTestNum());
+        flag = true;
+        while (flag) {
+            for (Score scorestore : scoreStore) {
+                if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId)) { // 검증: 학생id, 과목이름
+                    System.out.println("작성된 회차: " + scorestore.getTestNum());
+                }
             }
-        }
-        System.out.print("\n수정할 회차를 입력하시오...");
-        testNum = sc.nextInt();
-        for (Score scorestore : scoreStore) {
-            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum() == testNum ) { // 검증: 학생id, 과목이름, 회차
-                break;
+            System.out.print("\n수정할 회차를 입력하시오...");
+            testNum = sc.nextInt();
+            for (Score scorestore : scoreStore) {
+                if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum() == testNum ) { // 검증: 학생id, 과목이름, 회차
+                    flag=false;
+                    break;
+                }
             }
             System.out.println("잘못된 입력입니다.\n다시 입력하시오...");
         }
-
 
         for (Score scorestore : scoreStore) {
             if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getTestNum()==testNum) { // 검증: 학생id, 과목이름, 회차  // subject == SU1
