@@ -914,7 +914,9 @@ public class CampManagementApplication {
         sc.nextLine();
         while(idx<3) {
             String answer = sc.nextLine();
-            if (subjectStore.stream().anyMatch((Subject subject) -> subject.getSubjectName().equals(answer))) {
+            if(studentStore.stream().anyMatch((Student student)->{
+                return student.getStudentId().equals(studentId) && student.getStudentSubject().stream().anyMatch((Subject subject)-> subject.getSubjectName().equals(answer));
+            })) {
                 System.out.println("회차별 등급을 조회합니다...\n");
                 String subjectId = subjectStore.stream().filter((Subject subject) -> subject.getSubjectName().equals(answer)).findFirst().get().getSubjectId();
                 scoreStore.stream()
