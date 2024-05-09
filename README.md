@@ -1,4 +1,4 @@
-![image](https://github.com/equis3351/GiveMeLectures/assets/107970778/f3fa965d-c953-48a8-b326-e3ca4608a5a4)# ![image](https://github.com/equis3351/GiveMeLectures/assets/107970778/3c49078a-b5a7-4653-a6c5-ebae9c1f5e5c) 강의사조 - 수강생 관리 시스템
+# ![image](https://github.com/equis3351/GiveMeLectures/assets/107970778/8ba8ba81-b5de-4da4-91a4-362afeeef6bb) 강의사조 - 수강생 관리 시스템
 
 ## 👋 소개
 
