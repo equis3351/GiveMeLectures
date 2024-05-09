@@ -867,20 +867,17 @@ public class CampManagementApplication {
 
         System.out.println("다음 과목 중에서 회차별 등급을 조회할 과목을 입력해주세요.");
 
-        int idx=1;
         studentStore.stream().filter((Student stu)-> stu.getStudentId().equals(studentId)).forEach(student -> {
             student.getStudentSubject().forEach(subject -> {
                 System.out.print("/ "+subject+" ");
             });
         });
         System.out.print("/\n\n");
-
-        boolean flag=true;
+        int idx=0;
         sc.nextLine();
-        while(flag) {
+        while(idx<3) {
             String answer = sc.nextLine();
             if (subjectStore.stream().anyMatch((Subject subject) -> subject.getSubjectName().equals(answer))) {
-                flag = false;
                 System.out.println("회차별 등급을 조회합니다...\n");
                 String subjectId = subjectStore.stream().filter((Subject subject) -> subject.getSubjectName().equals(answer)).findFirst().get().getSubjectId();
                 scoreStore.stream()
@@ -890,10 +887,11 @@ public class CampManagementApplication {
                         .forEach((Score score) -> {
                             System.out.println(score.getRound()+"회차 점수 : "+score.getScore());
                         });
-
                 System.out.println("\n등급 조회 성공!");
+                break;
             } else{
-                System.out.println("잘못된 입력입니다. 정확한 과목명을 입력해주세요.");
+                System.out.println("잘못된 입력입니다. 정확한 과목명을 입력해주세요. (재입력 기회 "+(2-idx)+"회 남았습니다.)");
+                idx+=1;
             }
         }
     }
