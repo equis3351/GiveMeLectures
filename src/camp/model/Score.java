@@ -85,8 +85,8 @@ public class Score {
         return grade;
     }
 
-    // Setter
-    public void setScore(int score) {
+    // update
+    public void updateScore(int score) {
         this.score = score;
     }
 }

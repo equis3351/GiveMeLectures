@@ -885,7 +885,7 @@ public class CampManagementApplication {
             if (score_store.getStudentId().equals(studentId) &&
                     score_store.getSubjectId().equals(subjectId) &&
                     score_store.getRound() == round) { // 검증: 학생 id, 과목이름, 회차
-                score_store.setScore(score);
+                score_store.updateScore(score);
             }
         }
         System.out.println("\n점수 수정 성공!");
