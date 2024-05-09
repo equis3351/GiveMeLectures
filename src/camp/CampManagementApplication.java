@@ -910,9 +910,9 @@ public class CampManagementApplication {
             });
         });
         System.out.print("/\n\n");
-        int idx=0;
+        int cnt=0;
         sc.nextLine();
-        while(idx<3) {
+        while(cnt<3) {
             String answer = sc.nextLine();
             if(studentStore.stream().anyMatch((Student student)->{
                 return student.getStudentId().equals(studentId) && student.getStudentSubject().stream().anyMatch((Subject subject)-> subject.getSubjectName().equals(answer));
@@ -929,8 +929,8 @@ public class CampManagementApplication {
                 System.out.println("\n등급 조회 성공!");
                 break;
             } else{
-                System.out.println("잘못된 입력입니다. 정확한 과목명을 입력해주세요. (재입력 기회 "+(2-idx)+"회 남았습니다.)");
-                idx+=1;
+                System.out.println("잘못된 입력입니다. 정확한 과목명을 입력해주세요. (재입력 기회 "+(2-cnt)+"회 남았습니다.)");
+                cnt+=1;
             }
         }
     }
