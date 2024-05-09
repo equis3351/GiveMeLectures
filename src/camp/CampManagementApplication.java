@@ -875,6 +875,26 @@ public class CampManagementApplication {
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (과목별 평균 등급)
+        for (Student student : studentStore) {
+            if (student.getStudentId().equals(studentId))  { // studentID 값이 같을때 까지
+                for (Subject subject : student.getStudentSubject()) {
+                    String subjectId = subject.getSubjectId(); //
+                    int totalScore = 0;
+                    int numberOfScores = 0; // 해당 과목의 점수 개수를 세기 위한 변수!
+                    for (Score score : scoreStore) {
+                        String scoreSubjectId = score.getSubjectId(); // 변경: score의 과목 아이디 가져옴
+                        String scoreStudentId = score.getStudentId(); // 변경: score의 학생 아이디 가져옴
+                        if (studentId.equals(scoreStudentId) && subjectId.equals(scoreSubjectId)) {
+                            totalScore += score.getScore();
+                            numberOfScores++;
+                        }
+                    }
+                    // 평균 계산
+                    double averageScore = (double) totalScore / numberOfScores;
+                    System.out.println("과목 ID: " + subjectId + ", 과목별 평균 등급: " + averageScore);
+                }
+            }
+        }
         System.out.println("과목별 평균 등급을 조회합니다...");
         // 기능 구현
         // 조회 형식은 자유입니다.
@@ -886,7 +906,7 @@ public class CampManagementApplication {
         System.out.println("==================================");
         String studentState = getStudentState(); // 조회할 수강생 상태
         // 기능 구현 (조회할 특정 상태)
-        // 기능 구현 (필수 과목 평균 등급) 
+        // 기능 구현 (필수 과목 평균 등급)
         System.out.println("특정 상태 수강생들의 필수 과목 평균 등급을 조회합니다...");
         // 기능 구현
         // 조회 형식은 자유입니다.
