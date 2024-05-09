@@ -963,9 +963,14 @@ public class CampManagementApplication {
         System.out.println("\n필수 과목 평균 등급 조회 성공!");
     }
 
-    private static String getStudentId() {
-        System.out.print("관리할 수강생의 번호를 입력하시오...");
-        return "ST" + sc.next();
+    private static String getStudentId() {///////////////학생 없으면 등록 안되게 수정
+        while (true) {
+            System.out.print("관리할 수강생의 번호를 입력하시오...");
+            String st = INDEX_TYPE_STUDENT+sc.next();
+            if(studentStore.stream().filter(s->Objects.equals(s.getStudentId(),st)).count()>0){
+                return st;}
+            System.out.println("\n해당 학생이 존재하지 않습니다...");
+        }
     }
 
     private static String getStudentState() {
