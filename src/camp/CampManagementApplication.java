@@ -259,7 +259,7 @@ public class CampManagementApplication {
             // 선택 가능한 필수 과목 목록 출력
             for (int i = 0; i < subjectStore.size(); i++) {
                 Subject subject = subjectStore.get(i);
-                if (Objects.equals(subject.getSubjectType(), SUBJECT_TYPE_MANDATORY)) {
+                if (SUBJECT_TYPE_MANDATORY.equals(subject.getSubjectType())) {
                     System.out.println((i + 1) + ". " + subject.getSubjectName());
                 }
             }
@@ -276,7 +276,7 @@ public class CampManagementApplication {
                 System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.\n");
             }
             // 선택 종료 조건 확인
-            else if (subject.equals("6") && mandatorySubjectCount >= 3){
+            else if ("6".equals(subject) && mandatorySubjectCount >= 3){
                 break;
             }
             // 유효한 선택인지 확인하고 선택한 과목 목록에 추가
@@ -309,7 +309,7 @@ public class CampManagementApplication {
             // 선택 가능한 과목 목록 출력
             for (int i = 0; i < subjectStore.size(); i++) {
                 Subject subject = subjectStore.get(i);
-                if (Objects.equals(subject.getSubjectType(), SUBJECT_TYPE_CHOICE)) {
+                if (SUBJECT_TYPE_CHOICE.equals(subject.getSubjectType())) {
                     System.out.println((i + 1) + ". " + subject.getSubjectName());
                 }
             }
@@ -326,7 +326,7 @@ public class CampManagementApplication {
                 System.out.println("이미 선택된 과목입니다. 다른 과목을 선택해주세요.\n");
             }
             // 선택 종료 조건 확인
-            else if (subject.equals("10") && choiceSubjectCount >= 2) {
+            else if ("10".equals(subject) && choiceSubjectCount >= 2) {
                 break;
             }
             // 유효한 선택인지 확인하고 선택한 과목 목록에 추가
@@ -362,7 +362,7 @@ public class CampManagementApplication {
     // 과목 ID로 과목을 찾는 메서드
     private static Subject findSubjectById(String id) {
         for (Subject subject : subjectStore) {
-            if (subject.getSubjectId().equals("SU" + id)) {
+            if (("SU" + id).equals(subject.getSubjectId())) {
                 return subject;
             }
         }
@@ -390,11 +390,11 @@ public class CampManagementApplication {
         System.out.println("수강생 상태를 관리합니다...");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
-        boolean found = false;
+        boolean isFound = false;
 
         for (Student student : studentStore) {
-            if (Objects.equals(student.getStudentId(), studentId)) {
-                found = true;
+            if (studentId.equals(student.getStudentId())) {
+                isFound = true;
                 System.out.println("\n수강생 정보");
                 printStudentStateBar();
                 printStudentState(student);
@@ -406,22 +406,22 @@ public class CampManagementApplication {
                     System.out.println("3. Yellow");
                     String newState= sc.next();
 
-                    if (Objects.equals(newState, "1")) {
-                        student.setStudentState("Green");
+                    if ("1".equals(newState)) {
+                        student.updateStudentState("Green");
 
                         System.out.println("\n수강생 정보");
                         printStudentStateBar();
                         printStudentState(student);
                         break;
-                    } else if (Objects.equals(newState, "2")) {
-                        student.setStudentState("Red");
+                    } else if ("2".equals(newState)) {
+                        student.updateStudentState("Red");
 
                         System.out.println("\n수강생 정보");
                         printStudentStateBar();
                         printStudentState(student);
                         break;
-                    } else if (Objects.equals(newState, "3")) {
-                        student.setStudentState("Yellow");
+                    } else if ("3".equals(newState)) {
+                        student.updateStudentState("Yellow");
 
                         System.out.println("\n수강생 정보");
                         printStudentStateBar();
@@ -434,7 +434,7 @@ public class CampManagementApplication {
             }
         }
 
-        if (found) {
+        if (isFound) {
             System.out.println("\n수강생 상태 관리 성공!");
         } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
@@ -448,20 +448,20 @@ public class CampManagementApplication {
         System.out.println("수강생 정보를 조회합니다...");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
-        boolean found = false;
+        boolean isFound = false;
 
         for (Student student : studentStore) {
-            if (Objects.equals(student.getStudentId(), studentId)) {
+            if (studentId.equals(student.getStudentId())) {
                 System.out.println("\n수강생 정보");
                 // 조회 형식은 자유입니다.
                 printStudentAllBar();
                 printStudentAll(student);
 
-                found = true;
+                isFound = true;
             }
         }
 
-        if (found) {
+        if (isFound) {
             System.out.println("\n수강생 정보 조회 성공!");
         } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
@@ -476,27 +476,27 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
         // 이름 또는 상태를 입력받아 수정하시면 됩니다.
-        boolean found = false;
+        boolean isFound = false;
 
         for (Student student : studentStore) {
-            if (Objects.equals(student.getStudentId(), studentId)) {
+            if (studentId.equals(student.getStudentId())) {
                 System.out.println("\n수강생 정보");
                 printStudentNameBar();
                 printStudentName(student);
 
                 System.out.print("\n수강생의 이름을 입력하세요 : ");
                 String newName= sc.next();
-                student.setStudentName(newName);
+                student.updateStudentName(newName);
 
                 System.out.println("\n수강생 정보");
                 printStudentNameBar();
                 printStudentName(student);
 
-                found = true;
+                isFound = true;
             }
         }
 
-        if (found) {
+        if (isFound) {
             System.out.println("\n수강생 정보 수정 성공!");
         } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
@@ -528,21 +528,21 @@ public class CampManagementApplication {
         }
 
         // 기능 구현
-        boolean found = false;
+        boolean isFound = false;
         for (Student student : studentStore) {
-            if (Objects.equals(student.getStudentState(), studentState)) {
-                found = true;
+            if (studentState.equals(student.getStudentState())) {
+                isFound = true;
                 break;
             }
         }
 
-        if (found) {
+        if (isFound) {
             System.out.println();
 
             // 조회 형식은 자유입니다.
             printStudentStateBar();
             for (Student student : studentStore) {
-                if (Objects.equals(student.getStudentState(), studentState)) {
+                if (studentState.equals(student.getStudentState())) {
                     printStudentState(student);
                 }
             }
@@ -560,11 +560,11 @@ public class CampManagementApplication {
         System.out.println("수강생을 삭제합니다...");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현
-        boolean found = studentStore.removeIf(student -> Objects.equals(student.getStudentId(), studentId));
+        boolean isFound = studentStore.removeIf(student -> studentId.equals(student.getStudentId()));
 
-        if (found) {
+        if (isFound) {
             // 해당 수강생의 점수 기록도 함께 삭제됩니다.
-            scoreStore.removeIf(score -> Objects.equals(score.getStudentId(), studentId));
+            scoreStore.removeIf(score -> studentId.equals(score.getStudentId()));
             System.out.println("\n수강생 삭제 성공!");
         } else {
             System.out.println("\n해당 ID의 수강생을 찾을 수 없습니다.");
@@ -691,7 +691,7 @@ public class CampManagementApplication {
             try {
                 studentId = getStudentId(); // 관리할 수강생 고유 번호
                 String finalStudentId = studentId;
-                if (studentStore.stream().noneMatch(s -> Objects.equals(s.getStudentId(), finalStudentId))){
+                if (studentStore.stream().noneMatch(s -> finalStudentId.equals(s.getStudentId()))){
                     System.out.println("\n해당 학생이 존재하지 않습니다.");
                     return;
                 }
@@ -730,7 +730,7 @@ public class CampManagementApplication {
         while (true) {
             System.out.print("\n등록할 시험 과목의 번호를 입력하시오...");
             String sub = INDEX_TYPE_SUBJECT+sc.next();
-            if(subjectStore.stream().anyMatch(s -> Objects.equals(s.getSubjectId(), sub))){
+            if(subjectStore.stream().anyMatch(s -> sub.equals(s.getSubjectId()))){
             return sub;}
             System.out.println("\n해당 과목이 존재하지 않습니다...");
         }
@@ -772,7 +772,7 @@ public class CampManagementApplication {
 
     private static String checkSubjectType(String subjectID){
         for (Subject subject : subjectStore) {
-            if (Objects.equals(subject.getSubjectId(),subjectID)){
+            if (subjectID.equals(subject.getSubjectId())){
                 return subject.getSubjectType();
             }
         }
@@ -799,7 +799,7 @@ public class CampManagementApplication {
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
 
-        if (studentStore.stream().noneMatch(s -> Objects.equals(s.getStudentId(), studentId))){
+        if (studentStore.stream().noneMatch(s -> studentId.equals(s.getStudentId()))){
             System.out.println("\n해당 학생이 존재하지 않습니다.");
             return;
         }
@@ -896,7 +896,7 @@ public class CampManagementApplication {
     private static void inquireRoundGradeBySubject() {
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        if (studentStore.stream().noneMatch(s -> Objects.equals(s.getStudentId(), studentId))){
+        if (studentStore.stream().noneMatch(s -> studentId.equals(s.getStudentId()))){
             System.out.println("\n해당 학생이 존재하지 않습니다.");
             return;
         }
@@ -940,7 +940,7 @@ public class CampManagementApplication {
         System.out.println("==================================");
         System.out.println("과목별 평균 등급을 조회합니다...");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        if (studentStore.stream().noneMatch(s -> Objects.equals(s.getStudentId(), studentId))){
+        if (studentStore.stream().noneMatch(s -> studentId.equals(s.getStudentId()))){
             System.out.println("\n해당 학생이 존재하지 않습니다.");
             return;
         }
