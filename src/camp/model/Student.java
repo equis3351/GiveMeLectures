@@ -32,12 +32,12 @@ public class Student {
         return studentSubject;
     }
 
-    // Setter
-    public void setStudentName(String studentName) {
+    // update
+    public void updateStudentName(String studentName) {
         this.studentName = studentName;
     }
 
-    public void setStudentState(String studentState) {
+    public void updateStudentState(String studentState) {
         this.studentState = studentState;
     }
 
