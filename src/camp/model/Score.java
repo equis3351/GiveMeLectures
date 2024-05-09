@@ -3,19 +3,17 @@ package camp.model;
 public class Score {
     private String scoreId;
     private String studentId;
-
     private String subjectId;
-    private int testNum;    //회차
-    private int score;  //점수
-
-    private String subjectType;
-    private char grade; //등급
+    private int round; // 회차
+    private int score; // 점수
+    private String subjectType; // 필수 or 선택
+    private char grade; // 등급
     
-    public Score(String seq, String studentId, String subjectId, int testNum, int score, String subjectType){
+    public Score(String seq, String studentId, String subjectId, int round, int score, String subjectType){
         this.scoreId = seq;
         this.studentId = studentId;
         this.subjectId = subjectId;
-        this.testNum = testNum;
+        this.round = round;
         this.score = score;
         this.subjectType = subjectType;
         this.grade = gradeCheck(score, subjectId);
@@ -34,8 +32,8 @@ public class Score {
         return subjectId;
     }
 
-    public int getTestNum() {
-        return testNum;
+    public int getRound() {
+        return round;
     }
 
     public int getScore() {
@@ -87,8 +85,8 @@ public class Score {
         return grade;
     }
 
-    // setter
-    public void setscore(int score) {
+    // Setter
+    public void setScore(int score) {
         this.score = score;
     }
 }
