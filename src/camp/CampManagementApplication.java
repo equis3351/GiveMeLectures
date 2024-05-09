@@ -773,11 +773,11 @@ public class CampManagementApplication {
         return null;
     }
 
-    private  static  boolean checkSavedScore(String studentId, String subjectId, Integer testNum){
+    private  static  boolean checkSavedScore(String studentId, String subjectId, Integer round){
         boolean tf = true;
         if ( !scoreStore.isEmpty()){
             for (Score s : scoreStore){
-                if (s.getStudentId().equals(studentId) && s.getSubjectId().equals(subjectId) && s.getRound() == testNum){
+                if (s.getStudentId().equals(studentId) && s.getSubjectId().equals(subjectId) && s.getRound() == round){
                     tf = false;
                     break;
                 }
@@ -789,74 +789,96 @@ public class CampManagementApplication {
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
         String subjectId="";
-        int score, testNum=0;
+        int score, round=0;
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
+
         // 기능 구현 (수정할 과목 및 회차, 점수)
-        for(Student student : studentStore) {
-            if(student.getStudentId().equals(studentId)) {
-                System.out.println("1. Java, 2. 객체지향, 3. Spring, 4. JPA, 5. MySQL, 6. 디자인 패턴, 7. Spring Security, 8. Redis, 9.MongoDB");
-                System.out.println("학생이 선택한 과목 : " + student.getStudentSubject()); // 학생 과목 출력
+        for (Student student : studentStore) {
+            if (student.getStudentId().equals(studentId)) {
+                System.out.println("\n1. Java, 2. 객체지향, 3. Spring, 4. JPA, 5. MySQL, 6. 디자인 패턴, 7. Spring Security, 8. Redis, 9.MongoDB");
+                System.out.println("학생이 선택한 과목 : " + student.getStudentSubject() + "\n"); // 학생 과목 출력
                 break;
             }
         }
+
         System.out.print("수정할 과목을 입력하시오...");
         sc.nextLine();
-        boolean flag=true;
-        while(flag) {
-            subjectId = sc.nextLine();    // 이름으로 받아야함. --> 번호로 받도록 수정
-            subjectId = "SU"+subjectId;     //subjectId(1, 2...)을 SU1, Su2... 등등 바꿔주기
-            for(Score scorestore: scoreStore) {
-                if(scorestore.getSubjectId().equals(subjectId) && scorestore.getRound() != NULL){
+        boolean flag = true;
+        while (true) {
+            subjectId = sc.nextLine(); // 이름으로 받아야함. --> 번호로 받도록 수정
+            subjectId = "SU" + subjectId; //subjectId(1, 2...)을 SU1, SU2... 등등 바꿔주기
+            for (Score score_store : scoreStore) {
+                if (score_store.getSubjectId().equals(subjectId) &&
+                        score_store.getRound() != NULL) {
                     flag = false;
                     break;
                 }
             }
-            if (flag == true) {
-                System.out.println("없는 과목이거나 회차가 존재하지 않습니다.\n다시 입력하시오...");
-                continue;
+
+            if (!flag) {
+                break;
             }
-        }   // 해당 과목에 대한 회차가 있으면 넘어가도록 수정하기
+
+            System.out.print("없는 과목이거나 회차가 존재하지 않습니다.\n\n다시 입력하시오...");
+        } // 해당 과목에 대한 회차가 있으면 넘어가도록 수정하기
 
         flag = true;
-        while (flag) {
-            for (Score scorestore : scoreStore) {
-                if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId)) { // 검증: 학생id, 과목이름
-                    System.out.println("작성된 회차: " + scorestore.getRound());
+        while (true) {
+            for (Score score_store : scoreStore) {
+                if (score_store.getStudentId().equals(studentId) &&
+                        score_store.getSubjectId().equals(subjectId)) // 검증: 학생 id, 과목이름
+                {
+                    System.out.println("\n작성된 회차: " + score_store.getRound());
                 }
             }
+
             System.out.print("\n수정할 회차를 입력하시오...");
-            testNum = sc.nextInt();
-            for (Score scorestore : scoreStore) {
-                if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getRound() == testNum ) { // 검증: 학생id, 과목이름, 회차
-                    flag=false;
+            round = sc.nextInt();
+            for (Score score_store : scoreStore) {
+                if (score_store.getStudentId().equals(studentId) &&
+                        score_store.getSubjectId().equals(subjectId) &&
+                        score_store.getRound() == round) { // 검증: 학생 id, 과목이름, 회차
+                    flag = false;
                     break;
                 }
             }
-            System.out.println("잘못된 입력입니다.\n다시 입력하시오...");
+            if (!flag) {
+                break;
+            }
+
+            System.out.print("\n잘못된 입력입니다.");
         }
 
-        for (Score scorestore : scoreStore) {
-            if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getRound()==testNum) { // 검증: 학생id, 과목이름, 회차  // subject == SU1
-                System.out.println("기존 시험 점수: " + scorestore.getScore());
+        for (Score score_store : scoreStore) {
+            if (score_store.getStudentId().equals(studentId) &&
+                    score_store.getSubjectId().equals(subjectId) &&
+                    score_store.getRound() == round) { // 검증: 학생 id, 과목이름, 회차  // subject == SU1
+                System.out.println("\n기존 시험 점수 : " + score_store.getScore());
             }
         }
+
         while (true) {
             System.out.print("\n수정할 시험 점수를 입력하시오...");
             score = sc.nextInt();
             if (score > 100 || score < 0) {
-                System.out.println("잘못 입력하였습니다...");
+                System.out.print("잘못된 점수입니다.\n");
+            } else {
+                break;
             }
-            else break;
         }
         System.out.println("\n시험 점수를 수정합니다...");
+
         // 기능 구현
-        for (Score scorestore : scoreStore) {
-             if(scorestore.getStudentId().equals(studentId) && scorestore.getSubjectId().equals(subjectId) && scorestore.getRound()==testNum) { // 검증: 학생id, 과목이름, 회차
-                scorestore.setScore(score);
+        for (Score score_store : scoreStore) {
+            if (score_store.getStudentId().equals(studentId) &&
+                    score_store.getSubjectId().equals(subjectId) &&
+                    score_store.getRound() == round) { // 검증: 학생 id, 과목이름, 회차
+                score_store.setScore(score);
             }
         }
         System.out.println("\n점수 수정 성공!");
+
     }
 
     // 수강생의 특정 과목 회차별 등급 조회
