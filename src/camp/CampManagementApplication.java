@@ -886,6 +886,11 @@ public class CampManagementApplication {
     private static void inquireAverageGradeBySubjectForSpecificState() {
         System.out.println("==================================");
         String studentState = getStudentState(); // 조회할 수강생 상태  1.green, 2.red, 3.yellow
+        switch (studentState) {
+            case "1" : studentState = "Green";
+            case "2" : studentState = "Red";
+            case "3" : studentState = "Yellow";
+        }
         // 기능 구현 (조회할 특정 상태)
         ArrayList<String> studentIdForSpecificState = new ArrayList<>();
         for (Student student : studentStore) {
@@ -919,7 +924,7 @@ public class CampManagementApplication {
         } else {
             grade = 'N';
         }
-        System.out.println(studentState+"상태의 수강생의 필수 과목 평균 등급: "+grade);
+        System.out.println(studentState+" 상태의 수강생의 필수 과목 평균 등급: "+grade);
 
         // 기능 구현
         // 조회 형식은 자유입니다.
