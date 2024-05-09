@@ -924,7 +924,7 @@ public class CampManagementApplication {
                         .filter((Score score)-> score.getSubjectId().equals(subjectId))
                         .sorted(Comparator.comparing(Score::getRound))
                         .forEach((Score score) -> {
-                            System.out.println(score.getRound()+"회차 점수 : "+score.getScore());
+                            System.out.println(score.getRound()+"회차 등급 : "+score.getGrade());
                         });
                 System.out.println("\n등급 조회 성공!");
                 break;
