@@ -685,7 +685,7 @@ public class CampManagementApplication {
     private static void createScore() {
         String studentId;
         String subjectId;
-        Integer round;
+        int round;
         // 기능 구현
         while(true) {
             try {
@@ -706,7 +706,7 @@ public class CampManagementApplication {
                 System.out.println("등록하려는 과목의 회차 점수가 이미 등록되어 있습니다");
             }
         }
-        Integer score = getTestScore();
+        int score = getTestScore();
 
         printScoreStateBar();
         printScoreState(studentId, subjectId, round, score);
