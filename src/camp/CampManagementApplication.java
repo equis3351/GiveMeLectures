@@ -854,32 +854,40 @@ public class CampManagementApplication {
     private static void inquireAverageGradeBySubject() {
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        boolean studentFound = false; // 학생을 찾음? 변수
         // 기능 구현 (과목별 평균 등급)
         for (Student student : studentStore) {
             if (student.getStudentId().equals(studentId))  { // studentID 값이 같을때 까지
+                studentFound = true; // 학생을 찾음!
                 for (Subject subject : student.getStudentSubject()) {
-                    String subjectId = subject.getSubjectId(); //
+                    String subjectName = subject.getSubjectName(); // 과목 이름 가져오기
                     int totalScore = 0;
                     int numberOfScores = 0; // 해당 과목의 점수 개수를 세기 위한 변수!
                     for (Score score : scoreStore) {
-                        String scoreSubjectId = score.getSubjectId(); // 변경: score의 과목 아이디 가져옴
-                        String scoreStudentId = score.getStudentId(); // 변경: score의 학생 아이디 가져옴
-                        if (studentId.equals(scoreStudentId) && subjectId.equals(scoreSubjectId)) {
+                        String scoreSubjectId = score.getSubjectId(); // score의 과목 아이디
+                        String scoreStudentId = score.getStudentId(); // score의 학생 아이디
+                        if (studentId.equals(scoreStudentId) && subject.getSubjectId().equals(scoreSubjectId)) {
                             totalScore += score.getScore();
                             numberOfScores++;
                         }
                     }
                     // 평균 계산
                     double averageScore = (double) totalScore / numberOfScores;
-                    System.out.println("과목 ID: " + subjectId + ", 과목별 평균 등급: " + averageScore);
+                    System.out.println("과목 이름: " + subjectName + ", 과목별 평균 등급: " + averageScore);
                 }
+                break; // 찾았으니 반복문 종료
             }
         }
-        System.out.println("과목별 평균 등급을 조회합니다...");
-        // 기능 구현
-        // 조회 형식은 자유입니다.
-        System.out.println("\n평균 등급 조회 성공!");
+        if (studentFound) {
+            System.out.println("과목별 평균 등급을 조회합니다...");
+            // 기능 구현
+            // 조회 형식은 자유입니다.
+            System.out.println("\n평균 등급 조회 성공!");
+        } else { // 학생을 찾지 못한 경우 메시지 출력
+            System.out.println("학생을 찾을 수 없습니다.");
+        }
     }
+
 
     // 특정 상태 수강생들의 필수 과목 평균 등급 조회
     private static void inquireAverageGradeBySubjectForSpecificState() {
