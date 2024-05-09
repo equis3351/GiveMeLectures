@@ -886,10 +886,38 @@ public class CampManagementApplication {
         System.out.println("==================================");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (조회할 특정 과목)
-        System.out.println("회차별 등급을 조회합니다...");
-        // 기능 구현
-        // 조회 형식은 자유입니다.
-        System.out.println("\n등급 조회 성공!");
+
+        System.out.println("다음 과목 중에서 회차별 등급을 조회할 과목을 입력해주세요.");
+
+        int idx=1;
+        studentStore.stream().filter((Student stu)-> stu.getStudentId().equals(studentId)).forEach(student -> {
+            student.getStudentSubject().forEach(subject -> {
+                System.out.print("/ "+subject+" ");
+            });
+        });
+        System.out.print("/\n\n");
+
+        boolean flag=true;
+        sc.nextLine();
+        while(flag) {
+            String answer = sc.nextLine();
+            if (subjectStore.stream().anyMatch((Subject subject) -> subject.getSubjectName().equals(answer))) {
+                flag = false;
+                System.out.println("회차별 등급을 조회합니다...\n");
+                String subjectId = subjectStore.stream().filter((Subject subject) -> subject.getSubjectName().equals(answer)).findFirst().get().getSubjectId();
+                scoreStore.stream()
+                        .filter((Score score)-> score.getStudentId().equals(studentId))
+                        .filter((Score score)-> score.getSubjectId().equals(subjectId))
+                        .sorted(Comparator.comparing(Score::getRound))
+                        .forEach((Score score) -> {
+                            System.out.println(score.getRound()+"회차 점수 : "+score.getScore());
+                        });
+
+                System.out.println("\n등급 조회 성공!");
+            } else{
+                System.out.println("잘못된 입력입니다. 정확한 과목명을 입력해주세요.");
+            }
+        }
     }
 
     // 수강생의 과목별 평균 등급 조회
