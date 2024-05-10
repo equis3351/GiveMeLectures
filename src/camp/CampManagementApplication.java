@@ -979,49 +979,45 @@ public class CampManagementApplication {
     }
 
     // 특정 상태 수강생들의 필수 과목 평균 등급 조회
-    private static void inquireAverageGradeBySubjectForSpecificState() {
+    private static void inquireAverageGradeBySubjectForSpecificState()  {
         System.out.println("==================================");
-        String studentState = getStudentState(); // 조회할 수강생 상태  1.green, 2.red, 3.yellow
-        switch (studentState) {
-            case "1" : studentState = "Green";
-            case "2" : studentState = "Red";
-            case "3" : studentState = "Yellow";
-        }
-        // 기능 구현 (조회할 특정 상태)
-        ArrayList<String> studentIdForSpecificState = new ArrayList<>();
-        for (Student student : studentStore) {
-            if (student.getStudentState().equals(studentState)) {
-                studentIdForSpecificState.add(student.getStudentId());   //특정 상태의 학생 아이디를 리스트에 저장
+        String studentState = " ";
+        while (true){
+            studentState = getStudentState(); // 조회할 수강생 상태  1.green, 2.red, 3.yellow
+            switch (studentState) {
+                case "1" : studentState = "Green";
+                    break;
+                case "2" : studentState = "Red";
+                    break;
+                case "3" : studentState = "Yellow";
+                    break;
+                default:
+                    System.out.println("잘못 입력하였습니다...");
             }
+            break;
         }
-        // 기능 구현 (필수 과목 평균 등급)
-        int sum=0;
-        double avg=0;
-        char grade;
-        System.out.println("특정 상태 수강생들의 필수 과목 평균 등급을 조회합니다...");
-        for (Score score : scoreStore) {
-            for (int i = 0; i < studentIdForSpecificState.size(); i++) {
-                if (studentIdForSpecificState.get(i).equals(score.getStudentId()) && SUBJECT_TYPE_MANDATORY.equals(score.getSubjectType())) { // 특정 상태의 필수과목
-                    sum += score.getScore();
+        int avg = 0;
+        int sum =0;
+        int count =0;
+        // 기능 구현 (조회할 특정 상태)]
+        List<Integer> scoreByState = new ArrayList<>();     // 특정상태의 학생의 필수과목 시험점수
+        for (Student student : studentStore) {
+            for (Score score : scoreStore) {
+                if (student.getStudentState().equals(studentState) && SUBJECT_TYPE_MANDATORY.equals(score.getSubjectType())) {
+                    scoreByState.add(score.getScore());
                 }
             }
         }
-        avg = (double) sum/studentIdForSpecificState.size();
-        if (avg >= 95) {
-            grade = 'A';
-        } else if (avg >= 90) {
-            grade = 'B';
-        } else if (avg >= 80) {
-            grade = 'C';
-        } else if (avg >= 70) {
-            grade = 'D';
-        } else if (avg >= 60) {
-            grade = 'F';
-        } else {
-            grade = 'N';
-        }
-        System.out.println(studentState+" 상태의 수강생의 필수 과목 평균 등급: "+grade);
 
+        for (int i = 0; i < scoreByState.size(); i++) {
+            sum += scoreByState.get(i);
+        }
+        avg = sum / scoreByState.size();
+        // 점수의 평균을 구함
+        // 기능 구현 (필수 과목 평균 등급)
+        System.out.println(scoreStore.get(0).gradeCheck(avg, SUBJECT_TYPE_MANDATORY));
+
+        
         // 기능 구현
         // 조회 형식은 자유입니다.
         System.out.println("\n필수 과목 평균 등급 조회 성공!");

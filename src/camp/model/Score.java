@@ -8,7 +8,11 @@ public class Score {
     private int score; // 점수
     private String subjectType; // 필수 or 선택
     private char grade; // 등급
-    
+
+    public Score() {
+
+    }
+
     public Score(String seq, String studentId, String subjectId, int round, int score, String subjectType){
         this.scoreId = seq;
         this.studentId = studentId;
@@ -48,7 +52,7 @@ public class Score {
         return grade;
     }
 
-    char gradeCheck(int score, String subjectType) {
+    public char gradeCheck(int score, String subjectType) {
 
         char grade;
 
